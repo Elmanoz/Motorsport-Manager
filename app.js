@@ -572,8 +572,6 @@ function schedulePitStop(driverNum) {
 function raceTick() {
     if (isRacePaused || !gameState.raceData || gameState.raceData.finished) return;
 
-    let raceFinishedThisTick = false;
-
     gameState.raceData.cars.forEach(car => {
         if (car.finishedRace) return;
 
