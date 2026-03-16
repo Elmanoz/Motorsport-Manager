@@ -2,20 +2,21 @@
 
 const GAME_DATA = {
     teams: [
-        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers: ["Max Verstappen", "Sergio Perez"], engine: 95, chassis: 95, wings: 93, underfloor: 96, suspension: 94 },
+        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers: ["Max Verstappen", "Isack Hadjar"], engine: 95, chassis: 95, wings: 93, underfloor: 96, suspension: 94 },
         { id: "mercedes", name: "Mercedes", color: "#27F4D2", budget: 140000000, drivers: ["George Russell", "Andrea Kimi Antonelli"], engine: 92, chassis: 90, wings: 90, underfloor: 88, suspension: 91 },
         { id: "ferrari", name: "Ferrari", color: "#E80020", budget: 140000000, drivers: ["Charles Leclerc", "Lewis Hamilton"], engine: 94, chassis: 92, wings: 91, underfloor: 93, suspension: 90 },
         { id: "mclaren", name: "McLaren", color: "#FF8000", budget: 135000000, drivers: ["Lando Norris", "Oscar Piastri"], engine: 92, chassis: 94, wings: 95, underfloor: 94, suspension: 92 },
         { id: "astonmartin", name: "Aston Martin", color: "#229971", budget: 130000000, drivers: ["Fernando Alonso", "Lance Stroll"], engine: 90, chassis: 85, wings: 86, underfloor: 84, suspension: 87 },
-        { id: "alpine", name: "Alpine", color: "#0093CC", budget: 120000000, drivers: ["Pierre Gasly", "Jack Doohan"], engine: 85, chassis: 82, wings: 83, underfloor: 80, suspension: 81 },
+        { id: "alpine", name: "Alpine", color: "#0093CC", budget: 120000000, drivers: ["Pierre Gasly", "Franco Colapinto"], engine: 85, chassis: 82, wings: 83, underfloor: 80, suspension: 81 },
         { id: "williams", name: "Williams", color: "#005AFF", budget: 110000000, drivers: ["Alexander Albon", "Carlos Sainz"], engine: 90, chassis: 80, wings: 81, underfloor: 78, suspension: 79 },
-        { id: "rb", name: "Visa Cash App RB", color: "#6692FF", budget: 110000000, drivers: ["Yuki Tsunoda", "Liam Lawson"], engine: 93, chassis: 81, wings: 80, underfloor: 82, suspension: 80 },
-        { id: "sauber", name: "Kick Sauber", color: "#52E252", budget: 115000000, drivers: ["Nico Hulkenberg", "Gabriel Bortoleto"], engine: 88, chassis: 75, wings: 76, underfloor: 74, suspension: 75 },
-        { id: "haas", name: "Haas F1 Team", color: "#B6BABD", budget: 100000000, drivers: ["Esteban Ocon", "Oliver Bearman"], engine: 92, chassis: 78, wings: 79, underfloor: 76, suspension: 77 }
+        { id: "rb", name: "Visa Cash App RB", color: "#6692FF", budget: 110000000, drivers: ["Arvid Linblad", "Liam Lawson"], engine: 93, chassis: 81, wings: 80, underfloor: 82, suspension: 80 },
+        { id: "audi", name: "Audi", color: "#999999", budget: 115000000, drivers: ["Nico Hulkenberg", "Gabriel Bortoleto"], engine: 88, chassis: 75, wings: 76, underfloor: 74, suspension: 75 },
+        { id: "haas", name: "Haas", color: "#B6BABD", budget: 100000000, drivers: ["Esteban Ocon", "Oliver Bearman"], engine: 92, chassis: 78, wings: 79, underfloor: 76, suspension: 77 },
+         { id: "cadillac", name: "Cadillac", color: "#000000", budget: 100000000, drivers: ["Valtteri Bottas", "Sergio Perez"], engine: 82, chassis: 70, wings: 65, underfloor: 70, suspension: 68 }
     ],
     drivers: {
         "Max Verstappen": { skill: 98, consistency: 97, pace: 99, defense: 95 },
-        "Sergio Perez": { skill: 85, consistency: 80, pace: 84, defense: 88 },
+        "Isack Hadjar": { skill: 85, consistency: 80, pace: 84, defense: 88 },
         "George Russell": { skill: 90, consistency: 88, pace: 90, defense: 86 },
         "Andrea Kimi Antonelli": { skill: 84, consistency: 80, pace: 86, defense: 80 },
         "Charles Leclerc": { skill: 95, consistency: 89, pace: 96, defense: 88 },
@@ -25,15 +26,17 @@ const GAME_DATA = {
         "Fernando Alonso": { skill: 93, consistency: 95, pace: 91, defense: 97 },
         "Lance Stroll": { skill: 78, consistency: 75, pace: 79, defense: 76 },
         "Pierre Gasly": { skill: 86, consistency: 84, pace: 85, defense: 83 },
-        "Jack Doohan": { skill: 79, consistency: 78, pace: 80, defense: 76 },
+        "Franco Colapinto": { skill: 79, consistency: 78, pace: 80, defense: 76 },
         "Alexander Albon": { skill: 87, consistency: 86, pace: 88, defense: 85 },
         "Carlos Sainz": { skill: 91, consistency: 93, pace: 90, defense: 92 },
-        "Yuki Tsunoda": { skill: 83, consistency: 78, pace: 85, defense: 80 },
+        "Arvid Linblad": { skill: 83, consistency: 78, pace: 85, defense: 80 },
         "Liam Lawson": { skill: 81, consistency: 82, pace: 82, defense: 80 },
         "Nico Hulkenberg": { skill: 85, consistency: 86, pace: 84, defense: 83 },
         "Gabriel Bortoleto": { skill: 77, consistency: 75, pace: 78, defense: 74 },
         "Esteban Ocon": { skill: 84, consistency: 82, pace: 84, defense: 86 },
-        "Oliver Bearman": { skill: 80, consistency: 78, pace: 81, defense: 77 }
+        "Oliver Bearman": { skill: 80, consistency: 78, pace: 81, defense: 77 },
+        "Vallteri Bottas": { skill: 81, consistency: 80, pace: 79, defense: 75 },
+        "Sergio Perez": {skill: 80, consistency: 79, pace: 79, defense: 79 }
     },
     calendar: [
         { round: 1, name: "Bahrain Grand Prix", laps: 57, length: 5.412 },
