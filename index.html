@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Manager 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -27,16 +30,16 @@
         <div id="dashboard" class="screen">
             <h2>Team Dashboard</h2>
             <div style="display: flex; justify-content: space-between; gap: 20px;">
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 8px;">
+                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
                     <h3 id="dash-team-name">Team Name</h3>
                     <p>Budget: $<span id="dash-budget">0</span></p>
                     <p>Next Race: <span id="dash-next-race">None</span></p>
                 </div>
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 8px;">
+                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
                     <h3>Drivers</h3>
                     <ul id="dash-drivers" style="list-style: none; padding: 0;"></ul>
                 </div>
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 8px;">
+                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
                     <h3>Car Stats</h3>
                     <p>Engine: <span id="dash-car-engine">0</span></p>
                     <p>Chassis: <span id="dash-car-chassis">0</span></p>
@@ -71,7 +74,7 @@
 
             <div id="practice-setup-container" style="display: flex; gap: 20px;">
                 <!-- Driver 1 Setup -->
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 8px;">
+                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
                     <h3 id="driver1-name">Driver 1</h3>
                     <p>Satisfaction: <span id="driver1-satisfaction">0</span>%</p>
                     <div style="margin-bottom: 10px;">
@@ -89,7 +92,7 @@
                 </div>
 
                 <!-- Driver 2 Setup -->
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 8px;">
+                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
                     <h3 id="driver2-name">Driver 2</h3>
                     <p>Satisfaction: <span id="driver2-satisfaction">0</span>%</p>
                     <div style="margin-bottom: 10px;">
@@ -116,7 +119,7 @@
         <!-- Qualifying Session -->
         <div id="qualifying-session" class="screen">
             <h2>Qualifying Results</h2>
-            <div id="qualifying-grid" style="display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 600px; margin: 0 auto; overflow-y: auto; max-height: 500px; background: #333; padding: 15px; border-radius: 8px;">
+            <div id="qualifying-grid" style="display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 600px; margin: 0 auto; overflow-y: auto; max-height: 500px; background: #333; padding: 15px; border-radius: 12px;">
                 <!-- Filled dynamically -->
             </div>
             <div style="margin-top: 20px; display: flex; justify-content: center;">
@@ -129,7 +132,7 @@
             <h2>Pre-Race Setup</h2>
             <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
                 <!-- Driver 1 -->
-                <div style="background: #333; padding: 20px; border-radius: 8px; width: 300px;">
+                <div style="background: #333; padding: 20px; border-radius: 12px; width: 300px;">
                     <h3 id="prerace-d1-name">Driver 1</h3>
                     <p>Starting Position: <span id="prerace-d1-pos">1</span></p>
                     <div style="margin-top: 10px;">
@@ -151,7 +154,7 @@
                 </div>
 
                 <!-- Driver 2 -->
-                <div style="background: #333; padding: 20px; border-radius: 8px; width: 300px;">
+                <div style="background: #333; padding: 20px; border-radius: 12px; width: 300px;">
                     <h3 id="prerace-d2-name">Driver 2</h3>
                     <p>Starting Position: <span id="prerace-d2-pos">2</span></p>
                     <div style="margin-top: 10px;">
@@ -211,7 +214,7 @@
                         <h3 style="text-align: center; border-bottom: 1px solid #555; padding-bottom: 5px;">Player Controls</h3>
 
                         <!-- Driver 1 Controls -->
-                        <div style="background: #333; padding: 10px; border-radius: 5px;">
+                        <div style="background: #333; padding: 10px; border-radius: 12px;">
                             <h4 id="race-d1-name">Driver 1</h4>
                             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
                                 <span>Pos: <span id="race-d1-pos">1</span></span>
@@ -233,7 +236,7 @@
                         </div>
 
                         <!-- Driver 2 Controls -->
-                        <div style="background: #333; padding: 10px; border-radius: 5px;">
+                        <div style="background: #333; padding: 10px; border-radius: 12px;">
                             <h4 id="race-d2-name">Driver 2</h4>
                             <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
                                 <span>Pos: <span id="race-d2-pos">2</span></span>

@@ -182,7 +182,7 @@ function renderTeamSelection() {
         const div = document.createElement('div');
         div.style.border = `2px solid ${team.color}`;
         div.style.padding = '15px';
-        div.style.borderRadius = '8px';
+        div.style.borderRadius = '12px';
         div.style.width = '250px';
         div.style.textAlign = 'center';
         div.style.cursor = 'pointer';
@@ -272,7 +272,7 @@ function updateUpgradesMenu() {
         const div = document.createElement('div');
         div.style.background = '#444';
         div.style.padding = '10px';
-        div.style.borderRadius = '5px';
+        div.style.borderRadius = '12px';
         div.style.display = 'flex';
         div.style.justifyContent = 'space-between';
         div.style.alignItems = 'center';
@@ -444,7 +444,7 @@ function simulateQualifying() {
         const div = document.createElement('div');
         div.style.background = '#444';
         div.style.padding = '10px';
-        div.style.borderRadius = '5px';
+        div.style.borderRadius = '12px';
         div.style.display = 'flex';
         div.style.justifyContent = 'space-between';
         div.style.borderLeft = `5px solid ${res.color}`;
