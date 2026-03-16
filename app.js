@@ -35,7 +35,7 @@ const GAME_DATA = {
         "Gabriel Bortoleto": { skill: 77, consistency: 75, pace: 78, defense: 74 },
         "Esteban Ocon": { skill: 84, consistency: 82, pace: 84, defense: 86 },
         "Oliver Bearman": { skill: 80, consistency: 78, pace: 81, defense: 77 },
-        "Vallteri Bottas": { skill: 81, consistency: 80, pace: 79, defense: 75 },
+        "Valtteri Bottas": { skill: 81, consistency: 80, pace: 79, defense: 75 },
         "Sergio Perez": {skill: 80, consistency: 79, pace: 79, defense: 79 }
     },
     calendar: [
@@ -451,8 +451,13 @@ function setupPreRace() {
     document.getElementById('prerace-d1-name').innerText = team.drivers[0];
     document.getElementById('prerace-d2-name').innerText = team.drivers[1];
 
-    let d1Pos = gameState.raceGrid.findIndex(g => g.driver === team.drivers[0]) + 1;
-    let d2Pos = gameState.raceGrid.findIndex(g => g.driver === team.drivers[1]) + 1;
+    let d1Pos = 0;
+    let d2Pos = 0;
+    for (let i = 0; i < gameState.raceGrid.length; i++) {
+        if (gameState.raceGrid[i].driver === team.drivers[0]) d1Pos = i + 1;
+        else if (gameState.raceGrid[i].driver === team.drivers[1]) d2Pos = i + 1;
+        if (d1Pos && d2Pos) break;
+    }
 
     document.getElementById('prerace-d1-pos').innerText = d1Pos;
     document.getElementById('prerace-d2-pos').innerText = d2Pos;
