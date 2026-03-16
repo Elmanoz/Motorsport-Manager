@@ -105,6 +105,7 @@ function loadGame() {
     }
 }
 
+if (typeof document !== 'undefined') {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("F1 Manager 2026 initialized.");
 
@@ -162,8 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-d1-pit')?.addEventListener('click', () => schedulePitStop(1));
     document.getElementById('btn-d2-pit')?.addEventListener('click', () => schedulePitStop(2));
 
-    document.getElementById('btn-end-weekend')?.addEventListener('click', () => endWeekend());
+    document.getElementById('btn-end-weekend')?.addEventListener('click', () => { endWeekend(); });
 });
+}
 
 function setRaceSpeed(ms) {
     raceSpeed = ms;
@@ -712,4 +714,12 @@ function endWeekend() {
     }
     updateDashboard();
     showScreen('dashboard');
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        calculateSatisfaction,
+        GAME_DATA,
+        gameState
+    };
 }
