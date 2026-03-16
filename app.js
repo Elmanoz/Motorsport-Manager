@@ -185,11 +185,18 @@ function renderTeamSelection() {
         div.style.textAlign = 'center';
         div.style.cursor = 'pointer';
         div.style.backgroundColor = '#333';
-        div.innerHTML = `
-            <h3 style="color: ${team.color};">${team.name}</h3>
-            <p>Drivers: ${team.drivers.join(', ')}</p>
-            <p>Budget: $${team.budget.toLocaleString()}</p>
-        `;
+        const h3 = document.createElement('h3');
+        h3.style.color = team.color;
+        h3.textContent = team.name;
+        div.appendChild(h3);
+
+        const pDrivers = document.createElement('p');
+        pDrivers.textContent = `Drivers: ${team.drivers.join(', ')}`;
+        div.appendChild(pDrivers);
+
+        const pBudget = document.createElement('p');
+        pBudget.textContent = `Budget: $${team.budget.toLocaleString()}`;
+        div.appendChild(pBudget);
         div.addEventListener('click', () => selectTeam(team));
         list.appendChild(div);
     });
@@ -271,15 +278,21 @@ function updateUpgradesMenu() {
         const canAfford = gameState.budget >= cost;
         const isMaxed = currentLevel >= 100;
 
-        div.innerHTML = `
-            <div>
-                <h4>${part.name} (Level: ${currentLevel})</h4>
-                <p>Cost to Upgrade: $${cost.toLocaleString()}</p>
-            </div>
-            <button class="btn" ${(!canAfford || isMaxed) ? 'disabled' : ''}>
-                ${isMaxed ? 'Max Level' : 'Upgrade'}
-            </button>
-        `;
+        const infoDiv = document.createElement('div');
+        const h4 = document.createElement('h4');
+        h4.textContent = `${part.name} (Level: ${currentLevel})`;
+        infoDiv.appendChild(h4);
+
+        const pCost = document.createElement('p');
+        pCost.textContent = `Cost to Upgrade: $${cost.toLocaleString()}`;
+        infoDiv.appendChild(pCost);
+        div.appendChild(infoDiv);
+
+        const upgradeBtn = document.createElement('button');
+        upgradeBtn.className = 'btn';
+        upgradeBtn.disabled = !canAfford || isMaxed;
+        upgradeBtn.textContent = isMaxed ? 'Max Level' : 'Upgrade';
+        div.appendChild(upgradeBtn);
 
         if (canAfford && !isMaxed) {
             div.querySelector('button').addEventListener('click', () => {
@@ -370,10 +383,13 @@ function testSetup() {
     };
 
     const fb = document.getElementById('practice-feedback');
-    fb.innerHTML = `
-        <p>${generateHint(team.drivers[0], gameState.practiceData.driver1.ideal, d1Current)}</p>
-        <p>${generateHint(team.drivers[1], gameState.practiceData.driver2.ideal, d2Current)}</p>
-    `;
+    fb.innerHTML = '';
+    const p1 = document.createElement('p');
+    p1.textContent = generateHint(team.drivers[0], gameState.practiceData.driver1.ideal, d1Current);
+    fb.appendChild(p1);
+    const p2 = document.createElement('p');
+    p2.textContent = generateHint(team.drivers[1], gameState.practiceData.driver2.ideal, d2Current);
+    fb.appendChild(p2);
 
     updatePracticeUI();
 }
@@ -434,10 +450,16 @@ function simulateQualifying() {
         const minutes = Math.floor(res.time / 60);
         const seconds = (res.time % 60).toFixed(3).padStart(6, '0');
 
-        div.innerHTML = `
-            <span><strong>${i + 1}.</strong> ${res.driver} (${res.team})</span>
-            <span>${minutes}:${seconds}</span>
-        `;
+        const leftSpan = document.createElement('span');
+        const strong = document.createElement('strong');
+        strong.textContent = `${i + 1}.`;
+        leftSpan.appendChild(strong);
+        leftSpan.appendChild(document.createTextNode(` ${res.driver} (${res.team})`));
+        div.appendChild(leftSpan);
+
+        const rightSpan = document.createElement('span');
+        rightSpan.textContent = `${minutes}:${seconds}`;
+        div.appendChild(rightSpan);
         gridContainer.appendChild(div);
     });
 
@@ -662,13 +684,32 @@ function updateRaceUI() {
         if (tireLetter === 'S') tireColor = '#ff3333';
         if (tireLetter === 'M') tireColor = '#ffff33';
 
-        div.innerHTML = `
-            <div style="width: 30px;">${car.pos}</div>
-            <div style="flex: 1; font-weight: ${car.isPlayer ? 'bold' : 'normal'};">${car.driver}</div>
-            <div style="width: 80px;">${intervalStr}</div>
-            <div style="width: 80px;">${formatTime(car.lastLapTime)}</div>
-            <div style="width: 80px; color: ${tireColor};">${tireLetter} (${Math.round(car.tire.life)}%)</div>
-        `;
+        const posDiv = document.createElement('div');
+        posDiv.style.width = '30px';
+        posDiv.textContent = car.pos;
+        div.appendChild(posDiv);
+
+        const driverDiv = document.createElement('div');
+        driverDiv.style.flex = '1';
+        driverDiv.style.fontWeight = car.isPlayer ? 'bold' : 'normal';
+        driverDiv.textContent = car.driver;
+        div.appendChild(driverDiv);
+
+        const intervalDiv = document.createElement('div');
+        intervalDiv.style.width = '80px';
+        intervalDiv.textContent = intervalStr;
+        div.appendChild(intervalDiv);
+
+        const lapTimeDiv = document.createElement('div');
+        lapTimeDiv.style.width = '80px';
+        lapTimeDiv.textContent = formatTime(car.lastLapTime);
+        div.appendChild(lapTimeDiv);
+
+        const tireDiv = document.createElement('div');
+        tireDiv.style.width = '80px';
+        tireDiv.style.color = tireColor;
+        tireDiv.textContent = `${tireLetter} (${Math.round(car.tire.life)}%)`;
+        div.appendChild(tireDiv);
         board.appendChild(div);
 
         // Update player side controls
