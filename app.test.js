@@ -1,6 +1,24 @@
 const { test, describe } = require('node:test');
 const assert = require('node:assert');
-const { calculateSatisfaction } = require('./app.js');
+const { calculateSatisfaction, generateRandomSetup } = require('./app.js');
+
+describe('generateRandomSetup', () => {
+    test('should return an array of length 3', () => {
+        const setup = generateRandomSetup();
+        assert.strictEqual(Array.isArray(setup), true);
+        assert.strictEqual(setup.length, 3);
+    });
+
+    test('should return numbers between 0 and 99', () => {
+        for (let i = 0; i < 100; i++) {
+            const setup = generateRandomSetup();
+            setup.forEach(val => {
+                assert.strictEqual(Number.isInteger(val), true);
+                assert.strictEqual(val >= 0 && val < 100, true);
+            });
+        }
+    });
+});
 
 describe('calculateSatisfaction', () => {
     test('should return 100 when ideal and current setups match perfectly', () => {

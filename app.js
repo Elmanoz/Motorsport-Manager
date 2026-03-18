@@ -308,13 +308,17 @@ function updateUpgradesMenu() {
     });
 }
 
+function generateRandomSetup() {
+    return [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+}
+
 function startRaceWeekend() {
     const team = GAME_DATA.teams.find(t => t.id === gameState.teamId);
     if (!team) return;
 
     // Reset practice data
-    gameState.practiceData.driver1.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
-    gameState.practiceData.driver2.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+    gameState.practiceData.driver1.ideal = generateRandomSetup();
+    gameState.practiceData.driver2.ideal = generateRandomSetup();
 
     gameState.practiceData.driver1.current = [50, 50, 50];
     gameState.practiceData.driver2.current = [50, 50, 50];
@@ -763,6 +767,7 @@ function endWeekend() {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         calculateSatisfaction,
+        generateRandomSetup,
         GAME_DATA,
         gameState
     };
