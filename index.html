@@ -6,298 +6,340 @@
     <title>F1 Manager 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="game-container">
+        
         <!-- Main Menu -->
         <div id="main-menu" class="screen active">
-            <h1>F1 Manager 2026</h1>
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                <button class="btn" id="btn-new-game">New Game</button>
-                <button class="btn" id="btn-load-game">Load Game</button>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 class="game-title">MOTORSPORT<br><span class="highlight">MANAGER 2026</span></h1>
+                <div style="margin-top: 50px; display: flex; flex-direction: column; gap: 15px;">
+                    <button class="btn btn-large" id="btn-new-game">New Career</button>
+                    <button class="btn btn-large btn-secondary" id="btn-load-game">Load Save</button>
+                </div>
             </div>
         </div>
 
         <!-- Team Selection -->
         <div id="team-selection" class="screen">
-            <h2>Select Your Team</h2>
-            <div id="team-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;"></div>
+            <div class="screen-header">
+                <h2>Select Constructor</h2>
+            </div>
+            <div id="team-list" class="team-grid"></div>
         </div>
 
         <!-- Dashboard -->
         <div id="dashboard" class="screen">
-            <h2>Team Dashboard</h2>
-            <div style="display: flex; justify-content: space-between; gap: 20px;">
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
-                    <h3 id="dash-team-name">Team Name</h3>
-                    <p>Budget: $<span id="dash-budget">0</span></p>
-                    <p>Next Race: <span id="dash-next-race">None</span></p>
-                </div>
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
-                    <h3>Drivers</h3>
-                    <ul id="dash-drivers" style="list-style: none; padding: 0;"></ul>
-                </div>
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
-                    <h3>Car Stats</h3>
-                    <p>Engine: <span id="dash-car-engine">0</span></p>
-                    <p>Chassis: <span id="dash-car-chassis">0</span></p>
-                    <p>Wings: <span id="dash-car-wings">0</span></p>
-                    <p>Underfloor: <span id="dash-car-underfloor">0</span></p>
-                    <p>Suspension: <span id="dash-car-suspension">0</span></p>
+            <div class="screen-header">
+                <h2>Team Headquarters</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" id="btn-goto-upgrades">R&D Facility</button>
+                    <button class="btn" id="btn-goto-weekend">Race Weekend</button>
+                    <button class="btn btn-secondary" id="btn-save-game">Save Game</button>
                 </div>
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
-                <button class="btn" id="btn-goto-upgrades">Car Upgrades</button>
-                <button class="btn" id="btn-goto-weekend">Start Race Weekend</button>
-                <button class="btn" id="btn-save-game" style="background-color: #555;">Save Game</button>
+            <div class="dashboard-grid">
+                <div class="panel">
+                    <h3 id="dash-team-name" style="font-size: 2rem;">Team Name</h3>
+                    <div class="stat-box">
+                        <span class="stat-label">Available Budget</span>
+                        <span class="stat-value text-green">$<span id="dash-budget">0</span></span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Next Event</span>
+                        <span class="stat-value text-highlight" id="dash-next-race">None</span>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>Driver Lineup</h3>
+                    <ul id="dash-drivers" class="custom-list"></ul>
+                </div>
+                <div class="panel">
+                    <h3>Car Development</h3>
+                    <div class="stat-row"><span>Engine</span> <span class="badge" id="dash-car-engine">0</span></div>
+                    <div class="stat-row"><span>Chassis</span> <span class="badge" id="dash-car-chassis">0</span></div>
+                    <div class="stat-row"><span>Wings</span> <span class="badge" id="dash-car-wings">0</span></div>
+                    <div class="stat-row"><span>Underfloor</span> <span class="badge" id="dash-car-underfloor">0</span></div>
+                    <div class="stat-row"><span>Suspension</span> <span class="badge" id="dash-car-suspension">0</span></div>
+                </div>
             </div>
         </div>
 
         <!-- Upgrades Menu -->
         <div id="upgrades-menu" class="screen">
-            <h2>Car Upgrades</h2>
-            <p>Current Budget: $<span id="upgrades-budget">0</span></p>
-            <div id="upgrades-list" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-                <!-- Filled dynamically -->
+            <div class="screen-header">
+                <h2>R&D Department</h2>
+                <div class="stat-value text-green">Budget: $<span id="upgrades-budget">0</span></div>
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: center;">
-                <button class="btn" id="btn-back-dashboard">Back to Dashboard</button>
+            <div id="upgrades-list" style="max-width: 800px; margin: 0 auto; width: 100%;"></div>
+            <div style="margin-top: auto; display: flex; justify-content: center;">
+                <button class="btn btn-secondary" id="btn-back-dashboard">Back to HQ</button>
             </div>
         </div>
 
         <!-- Practice Session -->
         <div id="practice-session" class="screen">
-            <h2>Practice Session</h2>
-            <p style="text-align: center; margin-bottom: 10px; font-size: 1.2rem;">Time Remaining: <span id="practice-time-left">60</span> mins</p>
-            <div id="practice-feedback" style="margin-bottom: 20px; font-weight: bold; text-align: center;"></div>
+            <div class="screen-header">
+                <h2>Free Practice Setup</h2>
+                <div class="stat-value">⏱️ <span id="practice-time-left" class="text-highlight">60</span> MINS REMAINING</div>
+            </div>
+            
+            <div id="practice-feedback" style="margin-bottom: 20px; max-height: 100px; overflow-y: auto;"></div>
 
-            <div id="practice-setup-container" style="display: flex; gap: 20px;">
+            <div style="display: flex; gap: 20px; flex: 1;">
                 <!-- Driver 1 Setup -->
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
+                <div class="panel" style="flex: 1;">
                     <h3 id="driver1-name">Driver 1</h3>
-                    <p>Satisfaction: <span id="driver1-satisfaction">0</span>%</p>
-                    <div style="margin-bottom: 10px;">
-                        <label>Wings Angle:</label>
-                        <input type="range" id="d1-wings" min="1" max="100" value="50" style="width: 100%;">
+                    <div class="satisfaction-container">
+                        <div class="satisfaction-bar" id="d1-sat-bar" style="width: 0%;"></div>
+                        <div class="satisfaction-text">Confidence: <span id="driver1-satisfaction">0</span>%</div>
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        <label>Suspension Stiffness:</label>
-                        <input type="range" id="d1-suspension" min="1" max="100" value="50" style="width: 100%;">
+                    <div>
+                        <label>Aerodynamics (Wings)</label>
+                        <input type="range" id="d1-wings" min="1" max="100" value="50">
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        <label>Ride Height:</label>
-                        <input type="range" id="d1-rideheight" min="1" max="100" value="50" style="width: 100%;">
+                    <div>
+                        <label>Suspension Stiffness</label>
+                        <input type="range" id="d1-suspension" min="1" max="100" value="50">
+                    </div>
+                    <div>
+                        <label>Ride Height</label>
+                        <input type="range" id="d1-rideheight" min="1" max="100" value="50">
                     </div>
                 </div>
 
                 <!-- Driver 2 Setup -->
-                <div style="flex: 1; background: #333; padding: 15px; border-radius: 12px;">
+                <div class="panel" style="flex: 1;">
                     <h3 id="driver2-name">Driver 2</h3>
-                    <p>Satisfaction: <span id="driver2-satisfaction">0</span>%</p>
-                    <div style="margin-bottom: 10px;">
-                        <label>Wings Angle:</label>
-                        <input type="range" id="d2-wings" min="1" max="100" value="50" style="width: 100%;">
+                    <div class="satisfaction-container">
+                        <div class="satisfaction-bar" id="d2-sat-bar" style="width: 0%;"></div>
+                        <div class="satisfaction-text">Confidence: <span id="driver2-satisfaction">0</span>%</div>
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        <label>Suspension Stiffness:</label>
-                        <input type="range" id="d2-suspension" min="1" max="100" value="50" style="width: 100%;">
+                    <div>
+                        <label>Aerodynamics (Wings)</label>
+                        <input type="range" id="d2-wings" min="1" max="100" value="50">
                     </div>
-                    <div style="margin-bottom: 10px;">
-                        <label>Ride Height:</label>
-                        <input type="range" id="d2-rideheight" min="1" max="100" value="50" style="width: 100%;">
+                    <div>
+                        <label>Suspension Stiffness</label>
+                        <input type="range" id="d2-suspension" min="1" max="100" value="50">
+                    </div>
+                    <div>
+                        <label>Ride Height</label>
+                        <input type="range" id="d2-rideheight" min="1" max="100" value="50">
                     </div>
                 </div>
             </div>
 
-            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
-                <button class="btn" id="btn-test-setup">Test Setup on Track</button>
+            <div style="margin-top: 25px; display: flex; justify-content: center; gap: 15px;">
+                <button class="btn btn-secondary" id="btn-test-setup">Run Telemetry Test</button>
                 <button class="btn" id="btn-goto-qualifying">Simulate Qualifying</button>
             </div>
         </div>
 
         <!-- Qualifying Session -->
         <div id="qualifying-session" class="screen">
-            <h2>Qualifying Results</h2>
-            <div id="qualifying-grid" style="display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 600px; margin: 0 auto; overflow-y: auto; max-height: 500px; background: #333; padding: 15px; border-radius: 12px;">
-                <!-- Filled dynamically -->
+            <div class="screen-header">
+                <h2>Qualifying Classification</h2>
             </div>
+            <div id="qualifying-grid" class="custom-scroll panel" style="max-width: 800px; margin: 0 auto; width: 100%;"></div>
             <div style="margin-top: 20px; display: flex; justify-content: center;">
-                <button class="btn" id="btn-goto-prerace">Proceed to Pre-Race Setup</button>
+                <button class="btn" id="btn-goto-prerace">Proceed to Grid</button>
             </div>
         </div>
 
         <!-- Pre-Race -->
         <div id="pre-race" class="screen">
-            <h2>Pre-Race Setup</h2>
-            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
-                <!-- Driver 1 -->
-                <div style="background: #333; padding: 20px; border-radius: 12px; width: 300px;">
-                    <h3 id="prerace-d1-name">Driver 1</h3>
-                    <p>Starting Position: <span id="prerace-d1-pos">1</span></p>
-                    <div style="margin-top: 10px;">
-                        <label>Tire Compound:</label>
-                        <select id="prerace-d1-tires" style="width: 100%; padding: 5px;">
-                            <option value="soft">Soft (Fast, High Deg)</option>
-                            <option value="medium">Medium (Balanced)</option>
-                            <option value="hard">Hard (Slow, Low Deg)</option>
+            <div class="screen-header">
+                <h2>Race Strategy</h2>
+            </div>
+            <div style="display: flex; gap: 30px; justify-content: center; flex: 1;">
+                
+                <div class="panel" style="width: 350px;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h3 id="prerace-d1-name">Driver 1</h3>
+                        <span class="badge" style="background: #334155;">P<span id="prerace-d1-pos">1</span></span>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label style="color: var(--text-muted); font-size: 0.9rem;">Starting Compound</label>
+                        <select id="prerace-d1-tires" style="margin-top: 5px;">
+                            <option value="soft">🔴 Soft (Fast, High Deg)</option>
+                            <option value="medium">🟡 Medium (Balanced)</option>
+                            <option value="hard">⚪ Hard (Slow, Low Deg)</option>
                         </select>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <label>Pace Strategy:</label>
-                        <select id="prerace-d1-pace" style="width: 100%; padding: 5px;">
-                            <option value="conserve">Conserve (Slower, Low Deg)</option>
-                            <option value="neutral" selected>Neutral</option>
-                            <option value="aggressive">Aggressive (Faster, High Deg)</option>
+                    <div style="margin-top: 20px;">
+                        <label style="color: var(--text-muted); font-size: 0.9rem;">Pace Strategy</label>
+                        <select id="prerace-d1-pace" style="margin-top: 5px;">
+                            <option value="conserve">🔵 Conserve Tires</option>
+                            <option value="neutral" selected>⚪ Neutral Pace</option>
+                            <option value="aggressive">🔴 Push Hard</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Driver 2 -->
-                <div style="background: #333; padding: 20px; border-radius: 12px; width: 300px;">
-                    <h3 id="prerace-d2-name">Driver 2</h3>
-                    <p>Starting Position: <span id="prerace-d2-pos">2</span></p>
-                    <div style="margin-top: 10px;">
-                        <label>Tire Compound:</label>
-                        <select id="prerace-d2-tires" style="width: 100%; padding: 5px;">
-                            <option value="soft">Soft (Fast, High Deg)</option>
-                            <option value="medium">Medium (Balanced)</option>
-                            <option value="hard">Hard (Slow, Low Deg)</option>
+                <div class="panel" style="width: 350px;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h3 id="prerace-d2-name">Driver 2</h3>
+                        <span class="badge" style="background: #334155;">P<span id="prerace-d2-pos">2</span></span>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label style="color: var(--text-muted); font-size: 0.9rem;">Starting Compound</label>
+                        <select id="prerace-d2-tires" style="margin-top: 5px;">
+                            <option value="soft">🔴 Soft (Fast, High Deg)</option>
+                            <option value="medium">🟡 Medium (Balanced)</option>
+                            <option value="hard">⚪ Hard (Slow, Low Deg)</option>
                         </select>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <label>Pace Strategy:</label>
-                        <select id="prerace-d2-pace" style="width: 100%; padding: 5px;">
-                            <option value="conserve">Conserve (Slower, Low Deg)</option>
-                            <option value="neutral" selected>Neutral</option>
-                            <option value="aggressive">Aggressive (Faster, High Deg)</option>
+                    <div style="margin-top: 20px;">
+                        <label style="color: var(--text-muted); font-size: 0.9rem;">Pace Strategy</label>
+                        <select id="prerace-d2-pace" style="margin-top: 5px;">
+                            <option value="conserve">🔵 Conserve Tires</option>
+                            <option value="neutral" selected>⚪ Neutral Pace</option>
+                            <option value="aggressive">🔴 Push Hard</option>
                         </select>
                     </div>
                 </div>
+
             </div>
             <div style="margin-top: 30px; display: flex; justify-content: center;">
-                <button class="btn" id="btn-start-race">Start Race</button>
+                <button class="btn btn-large" id="btn-start-race">Lights Out</button>
             </div>
         </div>
 
         <!-- Race -->
-        <div id="race-session" class="screen" style="padding: 0;">
-            <div style="display: flex; flex-direction: column; height: 100%;">
-                <div style="background: #222; padding: 10px; text-align: center; border-bottom: 2px solid #e10600; display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; font-size: 1.2rem;">Lap: <span id="race-current-lap">1</span> / <span id="race-total-laps">50</span></h2>
-                    <h2 style="margin: 0; font-size: 1.2rem;" id="race-track-name">Track Name</h2>
-                    <div>
-                        <button class="btn" id="btn-show-laptimes" style="padding: 5px 10px; margin: 0 2px; font-size: 12px; background-color: #005AFF;">Laptimes</button>
-                        <button class="btn" id="btn-speed-pause" style="padding: 5px 10px; margin: 0 2px; font-size: 12px;">Pause</button>
-                        <button class="btn" id="btn-speed-1x" style="padding: 5px 10px; margin: 0 2px; font-size: 12px;">1x</button>
-                        <button class="btn" id="btn-speed-2x" style="padding: 5px 10px; margin: 0 2px; font-size: 12px;">2x</button>
-                        <button class="btn" id="btn-speed-5x" style="padding: 5px 10px; margin: 0 2px; font-size: 12px;">5x</button>
+        <div id="race-session" class="screen no-pad">
+            <div class="race-header">
+                <div>
+                    <h2 style="margin: 0;"><span class="text-highlight">LAP</span> <span id="race-current-lap">1</span> / <span id="race-total-laps">50</span></h2>
+                    <h4 style="margin: 5px 0 0 0; color: var(--text-muted);" id="race-track-name">Track Name</h4>
+                </div>
+                <div class="speed-controls">
+                    <button class="btn btn-sm btn-secondary" id="btn-show-laptimes">Telemetry</button>
+                    <button class="btn btn-sm" id="btn-speed-pause">Pause</button>
+                    <button class="btn btn-sm" id="btn-speed-1x">1x</button>
+                    <button class="btn btn-sm" id="btn-speed-2x">2x</button>
+                    <button class="btn btn-sm" id="btn-speed-5x">5x</button>
+                </div>
+            </div>
+
+            <!-- Laptimes Modal -->
+            <div id="laptimes-modal" class="modal-overlay">
+                <div class="panel" style="width: 500px; max-height: 80vh; display: flex; flex-direction: column;">
+                    <h3 style="text-align: center;">Lap History</h3>
+                    <select id="laptimes-driver-select" style="margin-bottom: 15px;"></select>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #555; padding-bottom: 8px; margin-bottom: 8px; color: var(--text-muted);">
+                        <span style="width: 60px;">Lap</span>
+                        <span style="flex: 1; text-align: center;">Time</span>
+                        <span style="width: 60px; text-align: right;">Comp.</span>
+                    </div>
+                    <div id="laptimes-history" class="custom-scroll" style="flex: 1;"></div>
+                    <div style="margin-top: 15px; display: flex; justify-content: center;">
+                        <button class="btn btn-secondary" id="btn-close-laptimes">Close</button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Laptimes Modal -->
-                <div id="laptimes-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 50; flex-direction: column; align-items: center; justify-content: center;">
-                    <div style="background: #2a2a2a; padding: 20px; border-radius: 12px; width: 80%; max-width: 500px; max-height: 80%; display: flex; flex-direction: column;">
-                        <h3 style="text-align: center; margin-bottom: 10px;">Driver Laptimes</h3>
-                        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-                            <label style="margin-right: 10px; align-self: center;">Select Driver:</label>
-                            <select id="laptimes-driver-select" style="padding: 5px; flex: 1;"></select>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #555; padding-bottom: 5px; margin-bottom: 5px;">
-                            <span style="width: 60px;">Lap</span>
-                            <span style="flex: 1; text-align: center;">Time</span>
-                            <span style="width: 60px; text-align: right;">Compound</span>
-                        </div>
-                        <div id="laptimes-history" style="flex: 1; overflow-y: auto;">
-                            <!-- Filled dynamically -->
-                        </div>
-                        <div style="margin-top: 15px; display: flex; justify-content: center;">
-                            <button class="btn" id="btn-close-laptimes">Close</button>
-                        </div>
-                    </div>
+            <div class="race-content">
+                <div class="track-map">
+                    <svg width="600" height="150" id="race-track-svg" style="overflow: visible;">
+                        <ellipse cx="300" cy="75" rx="250" ry="60" fill="none" stroke="#222" stroke-width="24" />
+                        <ellipse cx="300" cy="75" rx="250" ry="60" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="8,6" />
+                    </svg>
                 </div>
 
-                <div style="display: flex; flex: 1; overflow: hidden; flex-direction: column;">
-
-                    <!-- Track Representation -->
-                    <div style="height: 200px; background: #222; border-bottom: 1px solid #444; display: flex; justify-content: center; align-items: center; position: relative;" id="track-container">
-                        <svg width="600" height="150" id="race-track-svg">
-                            <!-- Oval track -->
-                            <ellipse cx="300" cy="75" rx="250" ry="60" fill="none" stroke="#555" stroke-width="20" />
-                            <ellipse cx="300" cy="75" rx="250" ry="60" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="10,5" />
-                        </svg>
-                    </div>
-
-                    <div style="display: flex; flex: 1; overflow: hidden;">
+                <div class="race-bottom-split">
                     <!-- Leaderboard -->
-                    <div style="flex: 2; border-right: 1px solid #444; display: flex; flex-direction: column; background: #1a1a1a;">
-                        <div style="display: flex; background: #333; padding: 10px; font-weight: bold; border-bottom: 1px solid #555;">
-                            <div style="width: 30px;">Pos</div>
-                            <div style="flex: 1;">Driver</div>
-                            <div style="width: 80px;">Interval</div>
-                            <div style="width: 80px;">Lap Time</div>
-                            <div style="width: 80px;">Tires</div>
+                    <div class="leaderboard-container">
+                        <div class="leaderboard-header">
+                            <div class="cell-pos">P</div>
+                            <div class="cell-driver">Driver</div>
+                            <div class="cell-interval">Gap</div>
+                            <div class="cell-laptime">Lap</div>
+                            <div class="cell-tire">Tire</div>
                         </div>
-                        <div id="race-leaderboard" style="flex: 1; overflow-y: auto; padding: 0;">
-                            <!-- Filled dynamically -->
-                        </div>
+                        <div id="race-leaderboard" class="custom-scroll"></div>
                     </div>
 
-                    <!-- Player Controls Sidebar -->
-                    <div style="flex: 1; background: #2a2a2a; display: flex; flex-direction: column; padding: 10px; gap: 10px;">
-                        <h3 style="text-align: center; border-bottom: 1px solid #555; padding-bottom: 5px;">Player Controls</h3>
+                    <!-- Player Controls -->
+                    <div class="player-controls-container custom-scroll">
+                        <h3 style="text-align: center; color: var(--text-muted); font-size: 1rem;">Pitwall Controls</h3>
 
-                        <!-- Driver 1 Controls -->
-                        <div style="background: #333; padding: 10px; border-radius: 12px;">
-                            <h4 id="race-d1-name">Driver 1</h4>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                                <span>Pos: <span id="race-d1-pos">1</span></span>
-                                <span>Tire: <span id="race-d1-tire-life">100</span>% (<span id="race-d1-tire-type">S</span>)</span>
+                        <div class="panel driver-race-panel">
+                            <div class="driver-race-header">
+                                <h4 id="race-d1-name" style="margin: 0;">Driver 1</h4>
+                                <span class="pos-badge">P<span id="race-d1-pos">1</span></span>
                             </div>
-                            <label style="font-size: 12px;">Pace:</label>
-                            <select id="race-d1-pace" style="width: 100%; padding: 2px; font-size: 12px; margin-bottom: 5px;">
-                                <option value="conserve">Conserve</option>
-                                <option value="neutral">Neutral</option>
-                                <option value="aggressive">Aggressive</option>
-                            </select>
-                            <label style="font-size: 12px;">Next Tire:</label>
-                            <select id="race-d1-next-tire" style="width: 100%; padding: 2px; font-size: 12px; margin-bottom: 5px;">
-                                <option value="soft">Soft</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
-                            <button class="btn" id="btn-d1-pit" style="width: 100%; padding: 5px; font-size: 12px;">Pit Next Lap</button>
+                            <div class="tire-status-box">
+                                <div id="d1-tire-icon" class="tire-icon"><span id="race-d1-tire-type">S</span></div>
+                                <div class="tire-bar-container">
+                                    <div class="tire-bar" id="d1-tire-bar"></div>
+                                </div>
+                                <span style="font-family: monospace; font-weight: bold; width: 45px; text-align: right;"><span id="race-d1-tire-life">100</span>%</span>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; color: var(--text-muted);">Pace</label>
+                                    <select id="race-d1-pace">
+                                        <option value="conserve">Conserve</option>
+                                        <option value="neutral" selected>Neutral</option>
+                                        <option value="aggressive">Push</option>
+                                    </select>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; color: var(--text-muted);">Next Tire</label>
+                                    <select id="race-d1-next-tire">
+                                        <option value="soft">Soft</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="hard">Hard</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" id="btn-d1-pit" style="width: 100%;">BOX THIS LAP</button>
                         </div>
 
-                        <!-- Driver 2 Controls -->
-                        <div style="background: #333; padding: 10px; border-radius: 12px;">
-                            <h4 id="race-d2-name">Driver 2</h4>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px;">
-                                <span>Pos: <span id="race-d2-pos">2</span></span>
-                                <span>Tire: <span id="race-d2-tire-life">100</span>% (<span id="race-d2-tire-type">S</span>)</span>
+                        <div class="panel driver-race-panel">
+                            <div class="driver-race-header">
+                                <h4 id="race-d2-name" style="margin: 0;">Driver 2</h4>
+                                <span class="pos-badge">P<span id="race-d2-pos">2</span></span>
                             </div>
-                            <label style="font-size: 12px;">Pace:</label>
-                            <select id="race-d2-pace" style="width: 100%; padding: 2px; font-size: 12px; margin-bottom: 5px;">
-                                <option value="conserve">Conserve</option>
-                                <option value="neutral">Neutral</option>
-                                <option value="aggressive">Aggressive</option>
-                            </select>
-                            <label style="font-size: 12px;">Next Tire:</label>
-                            <select id="race-d2-next-tire" style="width: 100%; padding: 2px; font-size: 12px; margin-bottom: 5px;">
-                                <option value="soft">Soft</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
-                            <button class="btn" id="btn-d2-pit" style="width: 100%; padding: 5px; font-size: 12px;">Pit Next Lap</button>
+                            <div class="tire-status-box">
+                                <div id="d2-tire-icon" class="tire-icon"><span id="race-d2-tire-type">S</span></div>
+                                <div class="tire-bar-container">
+                                    <div class="tire-bar" id="d2-tire-bar"></div>
+                                </div>
+                                <span style="font-family: monospace; font-weight: bold; width: 45px; text-align: right;"><span id="race-d2-tire-life">100</span>%</span>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; color: var(--text-muted);">Pace</label>
+                                    <select id="race-d2-pace">
+                                        <option value="conserve">Conserve</option>
+                                        <option value="neutral" selected>Neutral</option>
+                                        <option value="aggressive">Push</option>
+                                    </select>
+                                </div>
+                                <div style="flex: 1;">
+                                    <label style="font-size: 11px; color: var(--text-muted);">Next Tire</label>
+                                    <select id="race-d2-next-tire">
+                                        <option value="soft">Soft</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="hard">Hard</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" id="btn-d2-pit" style="width: 100%;">BOX THIS LAP</button>
                         </div>
+
                     </div>
                 </div>
+            </div>
 
-                <div id="race-post-race" style="display: none; background: rgba(0,0,0,0.9); position: absolute; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 100;">
-                    <h2>Race Finished!</h2>
-                    <button class="btn" id="btn-end-weekend" style="font-size: 20px; padding: 15px 30px;">Continue</button>
-                </div>
+            <div id="race-post-race" style="display: none;">
+                <h2>CHEQUERED FLAG</h2>
+                <button class="btn btn-large" id="btn-end-weekend">Continue to HQ</button>
             </div>
         </div>
     </div>

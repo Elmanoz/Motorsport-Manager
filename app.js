@@ -1,17 +1,17 @@
 // Core application file
 
 const GAME_DATA = {
-    teams: [
-        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers: ["Max Verstappen", "Isack Hadjar"], engine: 95, chassis: 95, wings: 93, underfloor: 96, suspension: 94 },
+    teams:[
+        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers:["Max Verstappen", "Isack Hadjar"], engine: 95, chassis: 95, wings: 93, underfloor: 96, suspension: 94 },
         { id: "mercedes", name: "Mercedes", color: "#27F4D2", budget: 140000000, drivers: ["George Russell", "Andrea Kimi Antonelli"], engine: 92, chassis: 90, wings: 90, underfloor: 88, suspension: 91 },
         { id: "ferrari", name: "Ferrari", color: "#E80020", budget: 140000000, drivers: ["Charles Leclerc", "Lewis Hamilton"], engine: 94, chassis: 92, wings: 91, underfloor: 93, suspension: 90 },
-        { id: "mclaren", name: "McLaren", color: "#FF8000", budget: 135000000, drivers: ["Lando Norris", "Oscar Piastri"], engine: 92, chassis: 94, wings: 95, underfloor: 94, suspension: 92 },
+        { id: "mclaren", name: "McLaren", color: "#FF8000", budget: 135000000, drivers:["Lando Norris", "Oscar Piastri"], engine: 92, chassis: 94, wings: 95, underfloor: 94, suspension: 92 },
         { id: "astonmartin", name: "Aston Martin", color: "#229971", budget: 130000000, drivers: ["Fernando Alonso", "Lance Stroll"], engine: 90, chassis: 85, wings: 86, underfloor: 84, suspension: 87 },
         { id: "alpine", name: "Alpine", color: "#0093CC", budget: 120000000, drivers: ["Pierre Gasly", "Franco Colapinto"], engine: 85, chassis: 82, wings: 83, underfloor: 80, suspension: 81 },
-        { id: "williams", name: "Williams", color: "#005AFF", budget: 110000000, drivers: ["Alexander Albon", "Carlos Sainz"], engine: 90, chassis: 80, wings: 81, underfloor: 78, suspension: 79 },
+        { id: "williams", name: "Williams", color: "#005AFF", budget: 110000000, drivers:["Alexander Albon", "Carlos Sainz"], engine: 90, chassis: 80, wings: 81, underfloor: 78, suspension: 79 },
         { id: "rb", name: "Visa Cash App RB", color: "#6692FF", budget: 110000000, drivers: ["Arvid Linblad", "Liam Lawson"], engine: 93, chassis: 81, wings: 80, underfloor: 82, suspension: 80 },
         { id: "audi", name: "Audi", color: "#999999", budget: 115000000, drivers: ["Nico Hulkenberg", "Gabriel Bortoleto"], engine: 88, chassis: 75, wings: 76, underfloor: 74, suspension: 75 },
-        { id: "haas", name: "Haas", color: "#B6BABD", budget: 100000000, drivers: ["Esteban Ocon", "Oliver Bearman"], engine: 92, chassis: 78, wings: 79, underfloor: 76, suspension: 77 },
+        { id: "haas", name: "Haas", color: "#B6BABD", budget: 100000000, drivers:["Esteban Ocon", "Oliver Bearman"], engine: 92, chassis: 78, wings: 79, underfloor: 76, suspension: 77 },
          { id: "cadillac", name: "Cadillac", color: "#000000", budget: 100000000, drivers: ["Valtteri Bottas", "Sergio Perez"], engine: 82, chassis: 70, wings: 65, underfloor: 70, suspension: 68 }
     ],
     drivers: {
@@ -38,7 +38,7 @@ const GAME_DATA = {
         "Valtteri Bottas": { skill: 81, consistency: 80, pace: 79, defense: 75 },
         "Sergio Perez": {skill: 80, consistency: 79, pace: 79, defense: 79 }
     },
-    calendar: [
+    calendar:[
         { round: 1, name: "Bahrain Grand Prix", laps: 57, length: 5.412 },
         { round: 2, name: "Saudi Arabian Grand Prix", laps: 50, length: 6.174 },
         { round: 3, name: "Australian Grand Prix", laps: 58, length: 5.278 },
@@ -73,16 +73,16 @@ let gameState = {
     championship: { drivers: {}, constructors: {} },
     playerCar: { engine: 0, chassis: 0, wings: 0, underfloor: 0, suspension: 0 },
     practiceData: {
-        driver1: { ideal: [50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
-        driver2: { ideal: [50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
+        driver1: { ideal: [50, 50, 50], current:[50, 50, 50], satisfaction: 0 },
+        driver2: { ideal:[50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
         attemptsLeft: 3
     },
-    raceGrid: [],
+    raceGrid:[],
     raceData: null
 };
 
 let raceLoopInterval = null;
-let raceSpeed = 3000; // ms per tick
+let raceSpeed = 3000;
 let isRacePaused = false;
 
 function showScreen(screenId) {
@@ -170,19 +170,16 @@ document.addEventListener('DOMContentLoaded', () => {
         startRace();
     });
 
-    // Race Speed Controls
     document.getElementById('btn-speed-pause')?.addEventListener('click', () => { isRacePaused = !isRacePaused; document.getElementById('btn-speed-pause').innerText = isRacePaused ? "Resume" : "Pause"; });
     document.getElementById('btn-speed-1x')?.addEventListener('click', () => setRaceSpeed(3000));
     document.getElementById('btn-speed-2x')?.addEventListener('click', () => setRaceSpeed(1500));
     document.getElementById('btn-speed-5x')?.addEventListener('click', () => setRaceSpeed(600));
 
-    // Player Pit Controls
     document.getElementById('btn-d1-pit')?.addEventListener('click', () => schedulePitStop(1));
     document.getElementById('btn-d2-pit')?.addEventListener('click', () => schedulePitStop(2));
 
     document.getElementById('btn-end-weekend')?.addEventListener('click', () => { endWeekend(); });
 
-    // Laptimes Menu
     document.getElementById('btn-show-laptimes')?.addEventListener('click', () => {
         if (!isRacePaused) {
             alert("Pause the race first to view laptimes.");
@@ -203,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function showLaptimesModal() {
     if (!gameState.raceData) return;
-
     const select = document.getElementById('laptimes-driver-select');
     select.innerHTML = '';
 
@@ -214,7 +210,6 @@ function showLaptimesModal() {
         select.appendChild(option);
     });
 
-    // Default to player's driver 1 if available
     const d1Index = gameState.raceData.cars.findIndex(c => c.isPlayer && c.driverIndex === 0);
     if (d1Index !== -1) select.value = d1Index;
 
@@ -233,10 +228,7 @@ function updateLaptimesModal() {
 
     car.lapHistory.forEach(lapData => {
         const div = document.createElement('div');
-        div.style.display = 'flex';
-        div.style.justifyContent = 'space-between';
-        div.style.padding = '5px';
-        div.style.borderBottom = '1px solid #444';
+        div.className = 'lap-row';
 
         const lapSpan = document.createElement('span');
         lapSpan.textContent = `Lap ${lapData.lap}`;
@@ -248,19 +240,17 @@ function updateLaptimesModal() {
         timeSpan.textContent = `${minutes}:${seconds}`;
         timeSpan.style.flex = '1';
         timeSpan.style.textAlign = 'center';
+        timeSpan.style.color = 'var(--accent-blue)';
 
         const tireSpan = document.createElement('span');
         tireSpan.textContent = lapData.tire.charAt(0).toUpperCase();
+        tireSpan.className = `tire-${lapData.tire}`;
         tireSpan.style.width = '60px';
         tireSpan.style.textAlign = 'right';
-        if (lapData.tire === 'soft') tireSpan.style.color = '#ff3333';
-        else if (lapData.tire === 'medium') tireSpan.style.color = '#ffff33';
-        else tireSpan.style.color = '#ffffff';
 
         div.appendChild(lapSpan);
         div.appendChild(timeSpan);
         div.appendChild(tireSpan);
-
         historyContainer.appendChild(div);
     });
 }
@@ -278,25 +268,24 @@ function renderTeamSelection() {
     list.innerHTML = '';
     GAME_DATA.teams.forEach(team => {
         const div = document.createElement('div');
-        div.style.border = `2px solid ${team.color}`;
-        div.style.padding = '15px';
-        div.style.borderRadius = '12px';
-        div.style.width = '250px';
-        div.style.textAlign = 'center';
-        div.style.cursor = 'pointer';
-        div.style.backgroundColor = '#333';
+        div.className = 'team-card panel';
+        div.style.borderTop = `4px solid ${team.color}`;
+        
         const h3 = document.createElement('h3');
         h3.style.color = team.color;
         h3.textContent = team.name;
         div.appendChild(h3);
 
         const pDrivers = document.createElement('p');
+        pDrivers.className = 'team-drivers';
         pDrivers.textContent = `Drivers: ${team.drivers.join(', ')}`;
         div.appendChild(pDrivers);
 
         const pBudget = document.createElement('p');
+        pBudget.className = 'team-budget';
         pBudget.textContent = `Budget: $${team.budget.toLocaleString()}`;
         div.appendChild(pBudget);
+        
         div.addEventListener('click', () => selectTeam(team));
         list.appendChild(div);
     });
@@ -314,7 +303,6 @@ function selectTeam(team) {
         suspension: team.suspension
     };
 
-    // Initialize standings
     GAME_DATA.drivers.forEach ? null : Object.keys(GAME_DATA.drivers).forEach(d => gameState.championship.drivers[d] = 0);
     GAME_DATA.teams.forEach(t => gameState.championship.constructors[t.id] = 0);
 
@@ -331,15 +319,18 @@ function updateDashboard() {
     document.getElementById('dash-budget').innerText = gameState.budget.toLocaleString();
 
     const nextRace = GAME_DATA.calendar[gameState.currentRoundIndex];
-    document.getElementById('dash-next-race').innerText = nextRace ? `Round ${nextRace.round} - ${nextRace.name}` : "Season Finished";
+    document.getElementById('dash-next-race').innerText = nextRace ? `Rnd ${nextRace.round} - ${nextRace.name}` : "Season Finished";
 
     const driversList = document.getElementById('dash-drivers');
     driversList.innerHTML = '';
     team.drivers.forEach(d => {
         const stats = GAME_DATA.drivers[d];
         const li = document.createElement('li');
-        li.innerText = `${d} (OVR: ${Math.round((stats.skill + stats.consistency + stats.pace + stats.defense)/4)})`;
-        li.style.marginBottom = '5px';
+        li.className = 'driver-list-item';
+        li.innerHTML = `
+            <span class="driver-name">${d}</span>
+            <span class="driver-ovr">OVR ${Math.round((stats.skill + stats.consistency + stats.pace + stats.defense)/4)}</span>
+        `;
         driversList.appendChild(li);
     });
 
@@ -355,7 +346,7 @@ function updateUpgradesMenu() {
     const list = document.getElementById('upgrades-list');
     list.innerHTML = '';
 
-    const parts = [
+    const parts =[
         { key: 'engine', name: 'Engine' },
         { key: 'chassis', name: 'Chassis' },
         { key: 'wings', name: 'Wings' },
@@ -365,37 +356,39 @@ function updateUpgradesMenu() {
 
     parts.forEach(part => {
         const currentLevel = gameState.playerCar[part.key];
-        const cost = Math.floor(5000000 * Math.pow(1.1, currentLevel - 70)); // Cost scales with level
+        const cost = Math.floor(5000000 * Math.pow(1.1, currentLevel - 70));
 
         const div = document.createElement('div');
-        div.style.background = '#444';
-        div.style.padding = '10px';
-        div.style.borderRadius = '12px';
-        div.style.display = 'flex';
-        div.style.justifyContent = 'space-between';
-        div.style.alignItems = 'center';
+        div.className = 'upgrade-item panel';
 
         const canAfford = gameState.budget >= cost;
         const isMaxed = currentLevel >= 100;
 
         const infoDiv = document.createElement('div');
         const h4 = document.createElement('h4');
-        h4.textContent = `${part.name} (Level: ${currentLevel})`;
+        h4.style.margin = "0";
+        h4.textContent = part.name;
+        
+        const lvlSpan = document.createElement('span');
+        lvlSpan.className = 'upgrade-level';
+        lvlSpan.textContent = ` Lvl ${currentLevel}`;
+        h4.appendChild(lvlSpan);
         infoDiv.appendChild(h4);
 
         const pCost = document.createElement('p');
+        pCost.className = 'upgrade-cost';
         pCost.textContent = `Cost to Upgrade: $${cost.toLocaleString()}`;
         infoDiv.appendChild(pCost);
         div.appendChild(infoDiv);
 
         const upgradeBtn = document.createElement('button');
-        upgradeBtn.className = 'btn';
+        upgradeBtn.className = 'btn btn-sm';
         upgradeBtn.disabled = !canAfford || isMaxed;
         upgradeBtn.textContent = isMaxed ? 'Max Level' : 'Upgrade';
         div.appendChild(upgradeBtn);
 
         if (canAfford && !isMaxed) {
-            div.querySelector('button').addEventListener('click', () => {
+            upgradeBtn.addEventListener('click', () => {
                 gameState.budget -= cost;
                 gameState.playerCar[part.key] += 1;
                 updateUpgradesMenu();
@@ -410,10 +403,9 @@ function startRaceWeekend() {
     const team = GAME_DATA.teams.find(t => t.id === gameState.teamId);
     if (!team) return;
 
-    // Reset practice data
     gameState.practiceData.attemptsLeft = 3;
-    gameState.practiceData.driver1.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
-    gameState.practiceData.driver2.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+    gameState.practiceData.driver1.ideal =[Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+    gameState.practiceData.driver2.ideal =[Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
 
     gameState.practiceData.driver1.current = [50, 50, 50];
     gameState.practiceData.driver2.current = [50, 50, 50];
@@ -423,6 +415,7 @@ function startRaceWeekend() {
 
     document.getElementById('driver1-name').innerText = team.drivers[0];
     document.getElementById('driver2-name').innerText = team.drivers[1];
+    document.getElementById('practice-feedback').innerHTML = '';
 
     updatePracticeUI();
     showScreen('practice-session');
@@ -433,7 +426,6 @@ function calculateSatisfaction(ideal, current) {
     for (let i = 0; i < 3; i++) {
         diff += Math.abs(ideal[i] - current[i]);
     }
-    // Max diff is 300, min is 0.
     const satisfaction = Math.max(0, Math.floor(100 - (diff / 300) * 100));
     return satisfaction;
 }
@@ -445,6 +437,9 @@ function updatePracticeUI() {
 
     document.getElementById('driver1-satisfaction').innerText = gameState.practiceData.driver1.satisfaction;
     document.getElementById('driver2-satisfaction').innerText = gameState.practiceData.driver2.satisfaction;
+    
+    document.getElementById('d1-sat-bar').style.width = gameState.practiceData.driver1.satisfaction + '%';
+    document.getElementById('d2-sat-bar').style.width = gameState.practiceData.driver2.satisfaction + '%';
 
     document.getElementById('d1-wings').value = gameState.practiceData.driver1.current[0];
     document.getElementById('d1-suspension').value = gameState.practiceData.driver1.current[1];
@@ -464,12 +459,12 @@ function testSetup() {
         document.getElementById('btn-test-setup').disabled = true;
     }
 
-    const d1Current = [
+    const d1Current =[
         parseInt(document.getElementById('d1-wings').value),
         parseInt(document.getElementById('d1-suspension').value),
         parseInt(document.getElementById('d1-rideheight').value)
     ];
-    const d2Current = [
+    const d2Current =[
         parseInt(document.getElementById('d2-wings').value),
         parseInt(document.getElementById('d2-suspension').value),
         parseInt(document.getElementById('d2-rideheight').value)
@@ -483,40 +478,43 @@ function testSetup() {
 
     const team = GAME_DATA.teams.find(t => t.id === gameState.teamId);
 
-    // Provide hints
-    const generateHint = (driverName, ideal, current) => {
+    const generateHint = (ideal, current) => {
         let hints = [];
-        const labels = ['Wings', 'Suspension', 'Ride Height'];
+        const labels = ['Wings', 'Susp.', 'Ride H'];
         for (let i = 0; i < 3; i++) {
             if (current[i] < ideal[i] - 10) hints.push(`Increase ${labels[i]}`);
             else if (current[i] > ideal[i] + 10) hints.push(`Decrease ${labels[i]}`);
-            else hints.push(`${labels[i]} feels good`);
+            else hints.push(`Perfect ${labels[i]}`);
         }
-        return `${driverName}: ${hints.join(', ')}`;
+        return hints.join(' | ');
     };
 
     const fb = document.getElementById('practice-feedback');
     fb.innerHTML = '';
-    const p1 = document.createElement('p');
-    p1.textContent = generateHint(team.drivers[0], gameState.practiceData.driver1.ideal, d1Current);
+    
+    const p1 = document.createElement('div');
+    p1.className = 'feedback-line';
+    p1.innerHTML = `<span class="feedback-driver">${team.drivers[0]}</span> ${generateHint(gameState.practiceData.driver1.ideal, d1Current)}`;
     fb.appendChild(p1);
-    const p2 = document.createElement('p');
-    p2.textContent = generateHint(team.drivers[1], gameState.practiceData.driver2.ideal, d2Current);
+    
+    const p2 = document.createElement('div');
+    p2.className = 'feedback-line';
+    p2.innerHTML = `<span class="feedback-driver">${team.drivers[1]}</span> ${generateHint(gameState.practiceData.driver2.ideal, d2Current)}`;
     fb.appendChild(p2);
 
     updatePracticeUI();
 }
 
 function simulateQualifying() {
-    const results = [];
-    const baseLapTime = 80; // 80 seconds base
+    const results =[];
+    const baseLapTime = 80;
 
     GAME_DATA.teams.forEach(team => {
         team.drivers.forEach((driverName, index) => {
             const driverStats = GAME_DATA.drivers[driverName];
             const isPlayer = team.id === gameState.teamId;
             let carRating = 0;
-            let satisfaction = 80; // AI default satisfaction
+            let satisfaction = 80; 
 
             if (isPlayer) {
                 carRating = (gameState.playerCar.engine + gameState.playerCar.chassis + gameState.playerCar.wings + gameState.playerCar.underfloor + gameState.playerCar.suspension) / 5;
@@ -526,10 +524,6 @@ function simulateQualifying() {
             }
 
             const driverRating = (driverStats.skill + driverStats.pace) / 2;
-
-            // Calculate time: lower is better.
-            // Perfect rating (100) reduces time by 5s. Satisfaction reduces up to 1s.
-            // Add some RNG (up to 1s)
             let lapTime = baseLapTime - ((carRating / 100) * 5) - ((driverRating / 100) * 3) - ((satisfaction / 100) * 1) + (Math.random() * 1);
 
             results.push({
@@ -538,14 +532,12 @@ function simulateQualifying() {
                 color: team.color,
                 time: lapTime,
                 isPlayer: isPlayer,
-                driverIndex: index // 0 or 1
+                driverIndex: index
             });
         });
     });
 
-    // Sort by time (fastest first)
     results.sort((a, b) => a.time - b.time);
-
     gameState.raceGrid = results;
 
     const gridContainer = document.getElementById('qualifying-grid');
@@ -553,26 +545,31 @@ function simulateQualifying() {
 
     results.forEach((res, i) => {
         const div = document.createElement('div');
-        div.style.background = '#444';
-        div.style.padding = '10px';
-        div.style.borderRadius = '12px';
-        div.style.display = 'flex';
-        div.style.justifyContent = 'space-between';
-        div.style.borderLeft = `5px solid ${res.color}`;
+        div.className = 'qualifying-row';
+        div.style.borderLeftColor = res.color;
 
         const minutes = Math.floor(res.time / 60);
         const seconds = (res.time % 60).toFixed(3).padStart(6, '0');
 
         const leftSpan = document.createElement('span');
+        leftSpan.className = 'quali-driver';
         const strong = document.createElement('strong');
         strong.textContent = `${i + 1}.`;
         leftSpan.appendChild(strong);
-        leftSpan.appendChild(document.createTextNode(` ${res.driver} (${res.team})`));
+        leftSpan.appendChild(document.createTextNode(` ${res.driver} `));
+        
+        const teamSpan = document.createElement('span');
+        teamSpan.className = 'quali-team';
+        teamSpan.textContent = `(${res.team})`;
+        leftSpan.appendChild(teamSpan);
+
         div.appendChild(leftSpan);
 
         const rightSpan = document.createElement('span');
+        rightSpan.className = 'quali-time';
         rightSpan.textContent = `${minutes}:${seconds}`;
         div.appendChild(rightSpan);
+        
         gridContainer.appendChild(div);
     });
 
@@ -610,7 +607,6 @@ function startRace() {
     document.getElementById('race-d1-name').innerText = team.drivers[0];
     document.getElementById('race-d2-name').innerText = team.drivers[1];
 
-    // Initialize race data
     gameState.raceData = {
         lap: 1,
         totalLaps: currentRace.laps,
@@ -625,7 +621,6 @@ function startRace() {
                 tireType = document.getElementById(`prerace-${prefix}-tires`).value;
                 paceStrategy = document.getElementById(`prerace-${prefix}-pace`).value;
             } else {
-                // AI picks tires based on some simple logic (random for now)
                 const types = ['soft', 'medium', 'hard'];
                 tireType = types[Math.floor(Math.random() * types.length)];
                 paceStrategy = 'neutral';
@@ -647,7 +642,7 @@ function startRace() {
                 isPlayer: isPlayer,
                 driverIndex: gridPos.driverIndex,
                 pos: index + 1,
-                totalTime: index * 0.2, // Stagger starting times
+                totalTime: index * 0.2,
                 lastLapTime: 0,
                 interval: 0,
                 tire: { type: tireType, life: 100 },
@@ -657,7 +652,7 @@ function startRace() {
                 pittingNextLap: false,
                 pitStops: 0,
                 finishedRace: false,
-                lapHistory: []
+                lapHistory:[]
             };
         })
     };
@@ -687,13 +682,11 @@ function raceTick() {
     gameState.raceData.cars.forEach(car => {
         if (car.finishedRace) return;
 
-        // Player updates pace from UI
         if (car.isPlayer) {
             const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
             car.pace = document.getElementById(`race-${prefix}-pace`).value;
         }
 
-        // Tire logic
         let tirePaceMod = 0;
         let tireDegRate = 0;
 
@@ -703,7 +696,6 @@ function raceTick() {
             case 'hard': tirePaceMod = 1.0; tireDegRate = 0.5; break;
         }
 
-        // Pace logic
         let stratPaceMod = 0;
         let stratDegMod = 1.0;
         switch (car.pace) {
@@ -712,26 +704,21 @@ function raceTick() {
             case 'conserve': stratPaceMod = 0.5; stratDegMod = 0.5; break;
         }
 
-        // Apply degradation
         car.tire.life -= (tireDegRate * stratDegMod);
         if (car.tire.life < 0) car.tire.life = 0;
 
-        // Life penalty
         let lifePenalty = 0;
         if (car.tire.life < 30) lifePenalty = (30 - car.tire.life) * 0.1;
 
-        // Calculate Lap Time
         const driverSkillMod = ((100 - car.driverStats.pace) * 0.1);
         const carMod = ((100 - car.carRating) * 0.1);
         const rng = (Math.random() - 0.5) * 1.5;
 
         car.lastLapTime = gameState.raceData.baseLapTime + tirePaceMod + stratPaceMod + lifePenalty + driverSkillMod + carMod + rng;
-
         car.lapHistory.push({ lap: gameState.raceData.lap, time: car.lastLapTime, tire: car.tire.type });
 
-        // Pit stop
         if (car.pittingNextLap) {
-            car.lastLapTime += 22 + (Math.random() * 2); // 22 seconds avg pit loss
+            car.lastLapTime += 22 + (Math.random() * 2);
             car.tire.life = 100;
             car.pitStops++;
 
@@ -739,22 +726,19 @@ function raceTick() {
                 const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
                 car.tire.type = document.getElementById(`race-${prefix}-next-tire`).value;
                 car.pittingNextLap = false;
-                document.getElementById(`btn-${prefix}-pit`).innerText = "Pit Next Lap";
-                document.getElementById(`btn-${prefix}-pit`).disabled = false;
+                document.getElementById(`btn-d${car.driverIndex + 1}-pit`).innerText = "BOX THIS LAP";
+                document.getElementById(`btn-d${car.driverIndex + 1}-pit`).disabled = false;
             } else {
-                // AI Picks next tire (simple logic)
-                car.tire.type = ['medium', 'hard'][Math.floor(Math.random() * 2)];
+                car.tire.type =['medium', 'hard'][Math.floor(Math.random() * 2)];
                 car.pittingNextLap = false;
             }
         } else if (!car.isPlayer && car.tire.life < 20 && gameState.raceData.lap < gameState.raceData.totalLaps - 2) {
-            // AI Pitting logic
             car.pittingNextLap = true;
         }
 
         car.totalTime += car.lastLapTime;
     });
 
-    // Update Positions
     gameState.raceData.cars.sort((a, b) => a.totalTime - b.totalTime);
 
     let leaderTime = gameState.raceData.cars[0].totalTime;
@@ -784,11 +768,9 @@ function updateRaceUI() {
     board.innerHTML = '';
 
     const svgTrack = document.getElementById('race-track-svg');
-    // Keep the base ellipses, remove existing dots
     Array.from(svgTrack.querySelectorAll('g.car-dot')).forEach(el => el.remove());
 
     const leaderTime = gameState.raceData.cars[0].totalTime;
-    // Calculate expected total race time based on leader's average lap time so far
     let totalRaceTime = 0;
     if (gameState.raceData.lap > 1) {
         totalRaceTime = (leaderTime / (gameState.raceData.lap - 1)) * gameState.raceData.totalLaps;
@@ -797,28 +779,19 @@ function updateRaceUI() {
     }
 
     gameState.raceData.cars.forEach(car => {
-        // Track visualization logic
-        const cx = 300, cy = 75, rx = 250, ry = 60; // matching HTML SVG parameters
-
-        // Progress based on total race time.
-        // It wraps around every lap length, we can map it to 0 to 2*PI.
+        const cx = 300, cy = 75, rx = 250, ry = 60;
         let progress = 0;
         if (totalRaceTime > 0) {
             progress = (car.totalTime / totalRaceTime) * gameState.raceData.totalLaps;
         }
-
-        // The fractional part of progress is where the car is on the current lap
         let lapProgress = progress % 1;
 
-        // Offset starting position slightly based on grid
         if (gameState.raceData.lap === 1) {
             lapProgress -= (car.pos * 0.01);
             if (lapProgress < 0) lapProgress = 0;
         }
 
-        // Angle goes from -PI/2 to 3*PI/2 (starting top, going clockwise)
         const angle = -Math.PI/2 + (lapProgress * 2 * Math.PI);
-
         const dotX = cx + rx * Math.cos(angle);
         const dotY = cy + ry * Math.sin(angle);
 
@@ -830,9 +803,11 @@ function updateRaceUI() {
         circle.setAttribute('cy', dotY);
         circle.setAttribute('r', car.isPlayer ? 10 : 8);
         circle.setAttribute('fill', car.color);
+        
         if (car.isPlayer) {
             circle.setAttribute('stroke', '#fff');
             circle.setAttribute('stroke-width', '2');
+            circle.style.filter = 'drop-shadow(0 0 5px rgba(255,255,255,0.8))';
         } else {
             circle.setAttribute('stroke', '#000');
             circle.setAttribute('stroke-width', '1');
@@ -840,13 +815,13 @@ function updateRaceUI() {
 
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', dotX);
-        text.setAttribute('y', dotY + 3); // slight vertical adjustment
+        text.setAttribute('y', dotY + 3);
         text.setAttribute('font-size', '8');
         text.setAttribute('fill', '#fff');
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('font-weight', 'bold');
+        text.setAttribute('font-family', 'sans-serif');
 
-        // Extract initials
         const nameParts = car.driver.split(' ');
         let initials = nameParts[0][0];
         if (nameParts.length > 1) initials += nameParts[nameParts.length - 1][0];
@@ -857,11 +832,10 @@ function updateRaceUI() {
         svgTrack.appendChild(dotGroup);
 
         const div = document.createElement('div');
-        div.style.display = 'flex';
-        div.style.padding = '8px 10px';
-        div.style.borderBottom = '1px solid #444';
-        div.style.borderLeft = `4px solid ${car.color}`;
-        if (car.isPlayer) div.style.background = '#333';
+        div.className = 'race-row' + (car.isPlayer ? ' is-player' : '');
+        div.style.borderLeftColor = car.color;
+        div.style.borderLeftWidth = '4px';
+        div.style.borderLeftStyle = 'solid';
 
         const formatTime = (t) => {
             const m = Math.floor(t / 60);
@@ -871,51 +845,48 @@ function updateRaceUI() {
 
         const intervalStr = car.pos === 1 ? 'Leader' : `+${car.interval.toFixed(3)}`;
         const tireLetter = car.tire.type.charAt(0).toUpperCase();
-        let tireColor = '#fff';
-        if (tireLetter === 'S') tireColor = '#ff3333';
-        if (tireLetter === 'M') tireColor = '#ffff33';
 
         const posDiv = document.createElement('div');
-        posDiv.style.width = '30px';
+        posDiv.className = 'cell-pos';
         posDiv.textContent = car.pos;
         div.appendChild(posDiv);
 
         const driverDiv = document.createElement('div');
-        driverDiv.style.flex = '1';
-        driverDiv.style.fontWeight = car.isPlayer ? 'bold' : 'normal';
+        driverDiv.className = 'cell-driver';
         driverDiv.textContent = car.driver;
         div.appendChild(driverDiv);
 
         const intervalDiv = document.createElement('div');
-        intervalDiv.style.width = '80px';
+        intervalDiv.className = 'cell-interval';
         intervalDiv.textContent = intervalStr;
         div.appendChild(intervalDiv);
 
         const lapTimeDiv = document.createElement('div');
-        lapTimeDiv.style.width = '80px';
+        lapTimeDiv.className = 'cell-laptime';
         lapTimeDiv.textContent = formatTime(car.lastLapTime);
         div.appendChild(lapTimeDiv);
 
         const tireDiv = document.createElement('div');
-        tireDiv.style.width = '80px';
-        tireDiv.style.color = tireColor;
+        tireDiv.className = `cell-tire tire-${car.tire.type}`;
         tireDiv.textContent = `${tireLetter} (${Math.round(car.tire.life)}%)`;
         div.appendChild(tireDiv);
+        
         board.appendChild(div);
 
-        // Update player side controls
         if (car.isPlayer) {
             const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
             document.getElementById(`race-${prefix}-pos`).innerText = car.pos;
             document.getElementById(`race-${prefix}-tire-life`).innerText = Math.round(car.tire.life);
             document.getElementById(`race-${prefix}-tire-type`).innerText = tireLetter;
-            document.getElementById(`race-${prefix}-tire-type`).style.color = tireColor;
+            document.getElementById(`d${car.driverIndex + 1}-tire-icon`).className = `tire-icon tire-${car.tire.type}`;
+            document.getElementById(`d${car.driverIndex + 1}-tire-bar`).className = `tire-bar bg-${car.tire.type}`;
+            document.getElementById(`d${car.driverIndex + 1}-tire-bar`).style.width = Math.round(car.tire.life) + '%';
         }
     });
 }
 
 function awardPoints() {
-    const pointsSys = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
+    const pointsSys =[25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
     gameState.raceData.cars.forEach(car => {
         if (car.pos <= 10) {
@@ -928,9 +899,8 @@ function awardPoints() {
             }
         }
 
-        // Award prize money for player
         if (car.isPlayer) {
-            const prize = Math.max(0, (20 - car.pos) * 500000); // Max 10M for win
+            const prize = Math.max(0, (20 - car.pos) * 500000);
             gameState.budget += prize;
         }
     });
@@ -940,7 +910,6 @@ function endWeekend() {
     gameState.currentRoundIndex++;
     if (gameState.currentRoundIndex >= GAME_DATA.calendar.length) {
         alert("Season Finished!");
-        // End of game logic could go here
     }
     updateDashboard();
     showScreen('dashboard');
