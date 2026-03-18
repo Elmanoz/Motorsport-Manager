@@ -74,14 +74,15 @@ let gameState = {
     playerCar: { engine: 0, chassis: 0, wings: 0, underfloor: 0, suspension: 0 },
     practiceData: {
         driver1: { ideal: [50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
-        driver2: { ideal: [50, 50, 50], current: [50, 50, 50], satisfaction: 0 }
+        driver2: { ideal: [50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
+        attemptsLeft: 3
     },
     raceGrid: [],
     raceData: null
 };
 
 let raceLoopInterval = null;
-let raceSpeed = 1000; // ms per tick
+let raceSpeed = 3000; // ms per tick
 let isRacePaused = false;
 
 function showScreen(screenId) {
@@ -155,16 +156,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Race Speed Controls
     document.getElementById('btn-speed-pause')?.addEventListener('click', () => { isRacePaused = !isRacePaused; document.getElementById('btn-speed-pause').innerText = isRacePaused ? "Resume" : "Pause"; });
-    document.getElementById('btn-speed-1x')?.addEventListener('click', () => setRaceSpeed(1000));
-    document.getElementById('btn-speed-2x')?.addEventListener('click', () => setRaceSpeed(500));
-    document.getElementById('btn-speed-5x')?.addEventListener('click', () => setRaceSpeed(200));
+    document.getElementById('btn-speed-1x')?.addEventListener('click', () => setRaceSpeed(3000));
+    document.getElementById('btn-speed-2x')?.addEventListener('click', () => setRaceSpeed(1500));
+    document.getElementById('btn-speed-5x')?.addEventListener('click', () => setRaceSpeed(600));
 
     // Player Pit Controls
     document.getElementById('btn-d1-pit')?.addEventListener('click', () => schedulePitStop(1));
     document.getElementById('btn-d2-pit')?.addEventListener('click', () => schedulePitStop(2));
 
     document.getElementById('btn-end-weekend')?.addEventListener('click', () => { endWeekend(); });
+
+    // Laptimes Menu
+    document.getElementById('btn-show-laptimes')?.addEventListener('click', () => {
+        if (!isRacePaused) {
+            alert("Pause the race first to view laptimes.");
+            return;
+        }
+        showLaptimesModal();
+    });
+
+    document.getElementById('btn-close-laptimes')?.addEventListener('click', () => {
+        document.getElementById('laptimes-modal').style.display = 'none';
+    });
+
+    document.getElementById('laptimes-driver-select')?.addEventListener('change', () => {
+        updateLaptimesModal();
+    });
 });
+}
+
+function showLaptimesModal() {
+    if (!gameState.raceData) return;
+
+    const select = document.getElementById('laptimes-driver-select');
+    select.innerHTML = '';
+
+    gameState.raceData.cars.forEach((car, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = car.driver;
+        select.appendChild(option);
+    });
+
+    // Default to player's driver 1 if available
+    const d1Index = gameState.raceData.cars.findIndex(c => c.isPlayer && c.driverIndex === 0);
+    if (d1Index !== -1) select.value = d1Index;
+
+    updateLaptimesModal();
+    document.getElementById('laptimes-modal').style.display = 'flex';
+}
+
+function updateLaptimesModal() {
+    const select = document.getElementById('laptimes-driver-select');
+    const carIndex = parseInt(select.value);
+    const car = gameState.raceData.cars[carIndex];
+    if (!car) return;
+
+    const historyContainer = document.getElementById('laptimes-history');
+    historyContainer.innerHTML = '';
+
+    car.lapHistory.forEach(lapData => {
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.padding = '5px';
+        div.style.borderBottom = '1px solid #444';
+
+        const lapSpan = document.createElement('span');
+        lapSpan.textContent = `Lap ${lapData.lap}`;
+        lapSpan.style.width = '60px';
+
+        const timeSpan = document.createElement('span');
+        const minutes = Math.floor(lapData.time / 60);
+        const seconds = (lapData.time % 60).toFixed(3).padStart(6, '0');
+        timeSpan.textContent = `${minutes}:${seconds}`;
+        timeSpan.style.flex = '1';
+        timeSpan.style.textAlign = 'center';
+
+        const tireSpan = document.createElement('span');
+        tireSpan.textContent = lapData.tire.charAt(0).toUpperCase();
+        tireSpan.style.width = '60px';
+        tireSpan.style.textAlign = 'right';
+        if (lapData.tire === 'soft') tireSpan.style.color = '#ff3333';
+        else if (lapData.tire === 'medium') tireSpan.style.color = '#ffff33';
+        else tireSpan.style.color = '#ffffff';
+
+        div.appendChild(lapSpan);
+        div.appendChild(timeSpan);
+        div.appendChild(tireSpan);
+
+        historyContainer.appendChild(div);
+    });
 }
 
 function setRaceSpeed(ms) {
@@ -313,6 +395,7 @@ function startRaceWeekend() {
     if (!team) return;
 
     // Reset practice data
+    gameState.practiceData.attemptsLeft = 3;
     gameState.practiceData.driver1.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
     gameState.practiceData.driver2.ideal = [Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
 
@@ -340,6 +423,10 @@ function calculateSatisfaction(ideal, current) {
 }
 
 function updatePracticeUI() {
+    const practiceTimeLeft = gameState.practiceData.attemptsLeft * 20;
+    const timeDisplay = document.getElementById('practice-time-left');
+    if (timeDisplay) timeDisplay.innerText = practiceTimeLeft;
+
     document.getElementById('driver1-satisfaction').innerText = gameState.practiceData.driver1.satisfaction;
     document.getElementById('driver2-satisfaction').innerText = gameState.practiceData.driver2.satisfaction;
 
@@ -353,6 +440,14 @@ function updatePracticeUI() {
 }
 
 function testSetup() {
+    if (gameState.practiceData.attemptsLeft <= 0) return;
+
+    gameState.practiceData.attemptsLeft--;
+
+    if (gameState.practiceData.attemptsLeft <= 0) {
+        document.getElementById('btn-test-setup').disabled = true;
+    }
+
     const d1Current = [
         parseInt(document.getElementById('d1-wings').value),
         parseInt(document.getElementById('d1-suspension').value),
@@ -545,7 +640,8 @@ function startRace() {
                 driverStats: driverStats,
                 pittingNextLap: false,
                 pitStops: 0,
-                finishedRace: false
+                finishedRace: false,
+                lapHistory: []
             };
         })
     };
@@ -615,6 +711,8 @@ function raceTick() {
 
         car.lastLapTime = gameState.raceData.baseLapTime + tirePaceMod + stratPaceMod + lifePenalty + driverSkillMod + carMod + rng;
 
+        car.lapHistory.push({ lap: gameState.raceData.lap, time: car.lastLapTime, tire: car.tire.type });
+
         // Pit stop
         if (car.pittingNextLap) {
             car.lastLapTime += 22 + (Math.random() * 2); // 22 seconds avg pit loss
@@ -669,7 +767,79 @@ function updateRaceUI() {
     const board = document.getElementById('race-leaderboard');
     board.innerHTML = '';
 
+    const svgTrack = document.getElementById('race-track-svg');
+    // Keep the base ellipses, remove existing dots
+    Array.from(svgTrack.querySelectorAll('g.car-dot')).forEach(el => el.remove());
+
+    const leaderTime = gameState.raceData.cars[0].totalTime;
+    // Calculate expected total race time based on leader's average lap time so far
+    let totalRaceTime = 0;
+    if (gameState.raceData.lap > 1) {
+        totalRaceTime = (leaderTime / (gameState.raceData.lap - 1)) * gameState.raceData.totalLaps;
+    } else {
+        totalRaceTime = gameState.raceData.baseLapTime * gameState.raceData.totalLaps;
+    }
+
     gameState.raceData.cars.forEach(car => {
+        // Track visualization logic
+        const cx = 300, cy = 75, rx = 250, ry = 60; // matching HTML SVG parameters
+
+        // Progress based on total race time.
+        // It wraps around every lap length, we can map it to 0 to 2*PI.
+        let progress = 0;
+        if (totalRaceTime > 0) {
+            progress = (car.totalTime / totalRaceTime) * gameState.raceData.totalLaps;
+        }
+
+        // The fractional part of progress is where the car is on the current lap
+        let lapProgress = progress % 1;
+
+        // Offset starting position slightly based on grid
+        if (gameState.raceData.lap === 1) {
+            lapProgress -= (car.pos * 0.01);
+            if (lapProgress < 0) lapProgress = 0;
+        }
+
+        // Angle goes from -PI/2 to 3*PI/2 (starting top, going clockwise)
+        const angle = -Math.PI/2 + (lapProgress * 2 * Math.PI);
+
+        const dotX = cx + rx * Math.cos(angle);
+        const dotY = cy + ry * Math.sin(angle);
+
+        const dotGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        dotGroup.setAttribute('class', 'car-dot');
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', dotX);
+        circle.setAttribute('cy', dotY);
+        circle.setAttribute('r', car.isPlayer ? 10 : 8);
+        circle.setAttribute('fill', car.color);
+        if (car.isPlayer) {
+            circle.setAttribute('stroke', '#fff');
+            circle.setAttribute('stroke-width', '2');
+        } else {
+            circle.setAttribute('stroke', '#000');
+            circle.setAttribute('stroke-width', '1');
+        }
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', dotX);
+        text.setAttribute('y', dotY + 3); // slight vertical adjustment
+        text.setAttribute('font-size', '8');
+        text.setAttribute('fill', '#fff');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('font-weight', 'bold');
+
+        // Extract initials
+        const nameParts = car.driver.split(' ');
+        let initials = nameParts[0][0];
+        if (nameParts.length > 1) initials += nameParts[nameParts.length - 1][0];
+        text.textContent = initials.toUpperCase();
+
+        dotGroup.appendChild(circle);
+        dotGroup.appendChild(text);
+        svgTrack.appendChild(dotGroup);
+
         const div = document.createElement('div');
         div.style.display = 'flex';
         div.style.padding = '8px 10px';
