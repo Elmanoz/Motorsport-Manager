@@ -95,12 +95,28 @@ function saveGame() {
     alert("Game Saved!");
 }
 
+function isValidGameState(state) {
+    if (!state || typeof state !== 'object') return false;
+    if (!('teamId' in state) || !('budget' in state) || !('currentRoundIndex' in state)) return false;
+    return true;
+}
+
 function loadGame() {
     const saved = localStorage.getItem('f1manager2026_save');
     if (saved) {
-        gameState = JSON.parse(saved);
-        updateDashboard();
-        showScreen('dashboard');
+        try {
+            const parsedState = JSON.parse(saved);
+            if (isValidGameState(parsedState)) {
+                gameState = parsedState;
+                updateDashboard();
+                showScreen('dashboard');
+            } else {
+                alert("Invalid save file structure!");
+            }
+        } catch (e) {
+            console.error("Failed to parse save game data:", e);
+            alert("Error loading game!");
+        }
     } else {
         alert("No saved game found!");
     }
@@ -935,6 +951,9 @@ if (typeof module !== 'undefined' && module.exports) {
         calculateSatisfaction,
         GAME_DATA,
         gameState,
-        endWeekend
+        getGameState: () => gameState,
+        endWeekend,
+        loadGame,
+        isValidGameState
     };
 }
