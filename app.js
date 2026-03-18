@@ -94,12 +94,41 @@ function saveGame() {
     alert("Game Saved!");
 }
 
+function isValidGameState(state) {
+    if (!state || typeof state !== 'object') return false;
+
+    const requiredFields = ['teamId', 'budget', 'currentRoundIndex', 'championship', 'playerCar'];
+    for (const field of requiredFields) {
+        if (!(field in state)) return false;
+    }
+
+    if (state.teamId !== null && typeof state.teamId !== 'string') return false;
+    if (typeof state.budget !== 'number') return false;
+    if (typeof state.currentRoundIndex !== 'number') return false;
+
+    if (typeof state.championship !== 'object' || state.championship === null) return false;
+    if (typeof state.playerCar !== 'object' || state.playerCar === null) return false;
+
+    return true;
+}
+
 function loadGame() {
     const saved = localStorage.getItem('f1manager2026_save');
     if (saved) {
-        gameState = JSON.parse(saved);
-        updateDashboard();
-        showScreen('dashboard');
+        try {
+            const loadedState = JSON.parse(saved);
+            if (isValidGameState(loadedState)) {
+                gameState = loadedState;
+                updateDashboard();
+                showScreen('dashboard');
+            } else {
+                console.error("Invalid save game structure.");
+                alert("Failed to load game: Save file is corrupted or invalid.");
+            }
+        } catch (e) {
+            console.error("Error parsing save game:", e);
+            alert("Failed to load game: Save file is malformed.");
+        }
     } else {
         alert("No saved game found!");
     }
@@ -763,6 +792,7 @@ function endWeekend() {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         calculateSatisfaction,
+        isValidGameState,
         GAME_DATA,
         gameState
     };
