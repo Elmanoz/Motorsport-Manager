@@ -82,12 +82,26 @@ let gameState = {
 };
 
 let raceLoopInterval = null;
-let raceSpeed = 3000;
+let raceSpeed = 8000;
 let isRacePaused = false;
 
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
+}
+
+function playSessionIntro(gpName, sessionName) {
+    return new Promise(resolve => {
+        const introModal = document.getElementById('session-intro');
+        document.getElementById('intro-gp-name').innerText = `2026 ${gpName}`;
+        document.getElementById('intro-session-name').innerText = sessionName;
+        introModal.style.display = 'flex';
+
+        setTimeout(() => {
+            introModal.style.display = 'none';
+            resolve();
+        }, 2000);
+    });
 }
 
 function saveGame() {
@@ -144,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen('upgrades-menu');
     });
 
-    document.getElementById('btn-goto-weekend')?.addEventListener('click', () => {
-        startRaceWeekend();
+    document.getElementById('btn-goto-weekend')?.addEventListener('click', async () => {
+        await startRaceWeekend();
     });
 
     document.getElementById('btn-back-dashboard')?.addEventListener('click', () => {
@@ -157,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         testSetup();
     });
 
-    document.getElementById('btn-goto-qualifying')?.addEventListener('click', () => {
-        simulateQualifying();
+    document.getElementById('btn-goto-qualifying')?.addEventListener('click', async () => {
+        await simulateQualifying();
     });
 
     document.getElementById('btn-goto-prerace')?.addEventListener('click', () => {
@@ -166,14 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen('pre-race');
     });
 
-    document.getElementById('btn-start-race')?.addEventListener('click', () => {
-        startRace();
+    document.getElementById('btn-start-race')?.addEventListener('click', async () => {
+        await startRace();
     });
 
-    document.getElementById('btn-speed-pause')?.addEventListener('click', () => { isRacePaused = !isRacePaused; document.getElementById('btn-speed-pause').innerText = isRacePaused ? "Resume" : "Pause"; });
-    document.getElementById('btn-speed-1x')?.addEventListener('click', () => setRaceSpeed(3000));
-    document.getElementById('btn-speed-2x')?.addEventListener('click', () => setRaceSpeed(1500));
-    document.getElementById('btn-speed-5x')?.addEventListener('click', () => setRaceSpeed(600));
+    document.getElementById('btn-speed-pause')?.addEventListener('click', () => {
+        isRacePaused = !isRacePaused;
+        document.getElementById('btn-speed-pause').innerText = isRacePaused ? "Resume" : "Pause";
+        updateSpeedControlsUI();
+    });
+    document.getElementById('btn-speed-1x')?.addEventListener('click', () => setRaceSpeed(8000));
+    document.getElementById('btn-speed-2x')?.addEventListener('click', () => setRaceSpeed(4000));
+    document.getElementById('btn-speed-5x')?.addEventListener('click', () => setRaceSpeed(1000));
 
     document.getElementById('btn-d1-pit')?.addEventListener('click', () => schedulePitStop(1));
     document.getElementById('btn-d2-pit')?.addEventListener('click', () => schedulePitStop(2));
@@ -255,13 +273,29 @@ function updateLaptimesModal() {
     });
 }
 
-function setRaceSpeed(ms) {
-    raceSpeed = ms;
-    if (raceLoopInterval) {
-        clearInterval(raceLoopInterval);
-        raceLoopInterval = setInterval(raceTick, raceSpeed);
+function updateSpeedControlsUI() {
+    ['pause', '1x', '2x', '5x'].forEach(id => {
+        const btn = document.getElementById(`btn-speed-${id}`);
+        if (btn) btn.classList.remove('btn-secondary');
+    });
+
+    if (isRacePaused) {
+        document.getElementById('btn-speed-pause')?.classList.add('btn-secondary');
+    } else {
+        if (raceSpeed === 8000) document.getElementById('btn-speed-1x')?.classList.add('btn-secondary');
+        else if (raceSpeed === 4000) document.getElementById('btn-speed-2x')?.classList.add('btn-secondary');
+        else if (raceSpeed === 1000) document.getElementById('btn-speed-5x')?.classList.add('btn-secondary');
     }
 }
+
+function setRaceSpeed(ms) {
+    raceSpeed = ms;
+    isRacePaused = false;
+    document.getElementById('btn-speed-pause').innerText = "Pause";
+    updateSpeedControlsUI();
+}
+
+let lastRaceTickTime = 0;
 
 function renderTeamSelection() {
     const list = document.getElementById('team-list');
@@ -320,6 +354,11 @@ function updateDashboard() {
 
     const nextRace = GAME_DATA.calendar[gameState.currentRoundIndex];
     document.getElementById('dash-next-race').innerText = nextRace ? `Rnd ${nextRace.round} - ${nextRace.name}` : "Season Finished";
+
+    const topNextRace = document.getElementById('dashboard-top-next-race');
+    if (topNextRace) {
+        topNextRace.innerText = nextRace ? nextRace.name : "Season Finished";
+    }
 
     const driversList = document.getElementById('dash-drivers');
     driversList.innerHTML = '';
@@ -399,9 +438,14 @@ function updateUpgradesMenu() {
     });
 }
 
-function startRaceWeekend() {
+async function startRaceWeekend() {
     const team = GAME_DATA.teams.find(t => t.id === gameState.teamId);
     if (!team) return;
+
+    const currentRace = GAME_DATA.calendar[gameState.currentRoundIndex];
+    if (currentRace) {
+        await playSessionIntro(currentRace.name, "Free Practice");
+    }
 
     gameState.practiceData.attemptsLeft = 3;
     gameState.practiceData.driver1.ideal =[Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
@@ -505,7 +549,12 @@ function testSetup() {
     updatePracticeUI();
 }
 
-function simulateQualifying() {
+async function simulateQualifying() {
+    const currentRace = GAME_DATA.calendar[gameState.currentRoundIndex];
+    if (currentRace) {
+        await playSessionIntro(currentRace.name, "Qualifying");
+    }
+
     const results =[];
     const baseLapTime = 80;
 
@@ -595,8 +644,12 @@ function setupPreRace() {
     document.getElementById('prerace-d2-pos').innerText = d2Pos;
 }
 
-function startRace() {
+async function startRace() {
     const currentRace = GAME_DATA.calendar[gameState.currentRoundIndex];
+    if (currentRace) {
+        await playSessionIntro(currentRace.name, "Race");
+    }
+
     const team = GAME_DATA.teams.find(t => t.id === gameState.teamId);
 
     document.getElementById('race-track-name').innerText = currentRace.name;
@@ -643,15 +696,17 @@ function startRace() {
                 driverIndex: gridPos.driverIndex,
                 pos: index + 1,
                 totalTime: index * 0.2,
-                lastLapTime: 0,
+                lastLapTime: 85,
                 interval: 0,
                 tire: { type: tireType, life: 100 },
                 pace: paceStrategy,
                 carRating: carRating,
                 driverStats: driverStats,
                 pittingNextLap: false,
+                pitTimer: 0,
                 pitStops: 0,
                 finishedRace: false,
+                totalDistance: 0 - (index * 0.002), // Start spread out
                 lapHistory:[]
             };
         })
@@ -662,8 +717,11 @@ function startRace() {
 
     isRacePaused = false;
     document.getElementById('btn-speed-pause').innerText = "Pause";
-    if (raceLoopInterval) clearInterval(raceLoopInterval);
-    raceLoopInterval = setInterval(raceTick, raceSpeed);
+    updateSpeedControlsUI();
+
+    lastRaceTickTime = performance.now();
+    if (raceLoopInterval) cancelAnimationFrame(raceLoopInterval);
+    raceLoopInterval = requestAnimationFrame(raceTick);
 }
 
 function schedulePitStop(driverNum) {
@@ -676,8 +734,22 @@ function schedulePitStop(driverNum) {
     }
 }
 
-function raceTick() {
-    if (isRacePaused || !gameState.raceData || gameState.raceData.finished) return;
+function raceTick(timestamp) {
+    if (!lastRaceTickTime) lastRaceTickTime = timestamp;
+    const deltaMs = timestamp - lastRaceTickTime;
+    lastRaceTickTime = timestamp;
+
+    if (isRacePaused || !gameState.raceData || gameState.raceData.finished) {
+        raceLoopInterval = requestAnimationFrame(raceTick);
+        return;
+    }
+
+    // How much of a lap passes per real-world millisecond
+    // Base lap time for leader is roughly 85s
+    const lapProgressPerMs = 1 / raceSpeed;
+    const stepProgress = lapProgressPerMs * deltaMs;
+
+    let anyCarFinished = false;
 
     gameState.raceData.cars.forEach(car => {
         if (car.finishedRace) return;
@@ -685,6 +757,29 @@ function raceTick() {
         if (car.isPlayer) {
             const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
             car.pace = document.getElementById(`race-${prefix}-pace`).value;
+        }
+
+        if (car.pitTimer > 0) {
+            // Car is in the pits, don't progress totalDistance
+            car.pitTimer -= deltaMs;
+            car.totalTime += (deltaMs / raceSpeed) * 85; // Roughly scale real time back to sim time
+            if (car.pitTimer <= 0) {
+                car.tire.life = 100;
+                car.pitStops++;
+                car.pitTimer = 0;
+
+                if (car.isPlayer) {
+                    const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
+                    car.tire.type = document.getElementById(`race-${prefix}-next-tire`).value;
+                    car.pittingNextLap = false;
+                    document.getElementById(`btn-d${car.driverIndex + 1}-pit`).innerText = "BOX THIS LAP";
+                    document.getElementById(`btn-d${car.driverIndex + 1}-pit`).disabled = false;
+                } else {
+                    car.tire.type = ['medium', 'hard'][Math.floor(Math.random() * 2)];
+                    car.pittingNextLap = false;
+                }
+            }
+            return;
         }
 
         let tirePaceMod = 0;
@@ -704,7 +799,8 @@ function raceTick() {
             case 'conserve': stratPaceMod = 0.5; stratDegMod = 0.5; break;
         }
 
-        car.tire.life -= (tireDegRate * stratDegMod);
+        // Apply continuous tire degradation
+        car.tire.life -= (tireDegRate * stratDegMod * stepProgress);
         if (car.tire.life < 0) car.tire.life = 0;
 
         let lifePenalty = 0;
@@ -714,49 +810,66 @@ function raceTick() {
         const carMod = ((100 - car.carRating) * 0.1);
         const rng = (Math.random() - 0.5) * 1.5;
 
-        car.lastLapTime = gameState.raceData.baseLapTime + tirePaceMod + stratPaceMod + lifePenalty + driverSkillMod + carMod + rng;
-        car.lapHistory.push({ lap: gameState.raceData.lap, time: car.lastLapTime, tire: car.tire.type });
+        const currentLapPace = gameState.raceData.baseLapTime + tirePaceMod + stratPaceMod + lifePenalty + driverSkillMod + carMod + rng;
+        car.lastLapTime = currentLapPace;
 
-        if (car.pittingNextLap) {
-            car.lastLapTime += 22 + (Math.random() * 2);
-            car.tire.life = 100;
-            car.pitStops++;
+        // How much distance (in laps) this car covers in this step
+        // A slower lap pace means less distance covered per ms
+        const baseSpeedRatio = 85 / currentLapPace;
+        const distanceDelta = stepProgress * baseSpeedRatio;
 
-            if (car.isPlayer) {
-                const prefix = car.driverIndex === 0 ? 'd1' : 'd2';
-                car.tire.type = document.getElementById(`race-${prefix}-next-tire`).value;
-                car.pittingNextLap = false;
-                document.getElementById(`btn-d${car.driverIndex + 1}-pit`).innerText = "BOX THIS LAP";
-                document.getElementById(`btn-d${car.driverIndex + 1}-pit`).disabled = false;
-            } else {
-                car.tire.type =['medium', 'hard'][Math.floor(Math.random() * 2)];
-                car.pittingNextLap = false;
+        const previousLapFloor = Math.floor(car.totalDistance);
+        car.totalDistance += distanceDelta;
+        car.totalTime += (distanceDelta * currentLapPace);
+
+        // Log lap history when crossing the line
+        if (Math.floor(car.totalDistance) > previousLapFloor && Math.floor(car.totalDistance) > 0) {
+            car.lapHistory.push({ lap: Math.floor(car.totalDistance), time: car.lastLapTime, tire: car.tire.type });
+
+            if (car.pittingNextLap) {
+                // Approximate 22 seconds lost in pits. 22s / 85s * raceSpeed
+                car.pitTimer = (22 / 85) * raceSpeed;
+            } else if (!car.isPlayer && car.tire.life < 20 && car.totalDistance < gameState.raceData.totalLaps - 2) {
+                car.pittingNextLap = true;
             }
-        } else if (!car.isPlayer && car.tire.life < 20 && gameState.raceData.lap < gameState.raceData.totalLaps - 2) {
-            car.pittingNextLap = true;
         }
 
-        car.totalTime += car.lastLapTime;
+        if (car.totalDistance >= gameState.raceData.totalLaps) {
+            car.finishedRace = true;
+            anyCarFinished = true;
+        }
     });
 
-    gameState.raceData.cars.sort((a, b) => a.totalTime - b.totalTime);
+    // Sort cars by distance covered (descending)
+    gameState.raceData.cars.sort((a, b) => {
+        if (a.finishedRace && !b.finishedRace) return -1;
+        if (!a.finishedRace && b.finishedRace) return 1;
+        return b.totalDistance - a.totalDistance;
+    });
 
-    let leaderTime = gameState.raceData.cars[0].totalTime;
+    const leader = gameState.raceData.cars[0];
+    gameState.raceData.lap = Math.floor(leader.totalDistance) + 1;
+
     gameState.raceData.cars.forEach((car, index) => {
         car.pos = index + 1;
-        car.interval = index === 0 ? 0 : car.totalTime - gameState.raceData.cars[index - 1].totalTime;
+        // Interval is roughly the distance gap * leader's expected lap time
+        if (index === 0) {
+            car.interval = 0;
+        } else {
+            const distanceGap = leader.totalDistance - car.totalDistance;
+            car.interval = distanceGap * leader.lastLapTime;
+        }
     });
 
-    gameState.raceData.lap++;
+    updateRaceUI();
 
-    if (gameState.raceData.lap > gameState.raceData.totalLaps) {
+    if (gameState.raceData.cars.every(c => c.finishedRace)) {
         gameState.raceData.finished = true;
-        clearInterval(raceLoopInterval);
         document.getElementById('race-post-race').style.display = 'flex';
         awardPoints();
+    } else {
+        raceLoopInterval = requestAnimationFrame(raceTick);
     }
-
-    updateRaceUI();
 }
 
 function updateRaceUI() {
@@ -770,25 +883,12 @@ function updateRaceUI() {
     const svgTrack = document.getElementById('race-track-svg');
     Array.from(svgTrack.querySelectorAll('g.car-dot')).forEach(el => el.remove());
 
-    const leaderTime = gameState.raceData.cars[0].totalTime;
-    let totalRaceTime = 0;
-    if (gameState.raceData.lap > 1) {
-        totalRaceTime = (leaderTime / (gameState.raceData.lap - 1)) * gameState.raceData.totalLaps;
-    } else {
-        totalRaceTime = gameState.raceData.baseLapTime * gameState.raceData.totalLaps;
-    }
-
     gameState.raceData.cars.forEach(car => {
         const cx = 300, cy = 75, rx = 250, ry = 60;
-        let progress = 0;
-        if (totalRaceTime > 0) {
-            progress = (car.totalTime / totalRaceTime) * gameState.raceData.totalLaps;
-        }
-        let lapProgress = progress % 1;
 
-        if (gameState.raceData.lap === 1) {
-            lapProgress -= (car.pos * 0.01);
-            if (lapProgress < 0) lapProgress = 0;
+        let lapProgress = car.totalDistance % 1;
+        if (car.totalDistance < 0) {
+            lapProgress = 1 + (car.totalDistance % 1);
         }
 
         const angle = -Math.PI/2 + (lapProgress * 2 * Math.PI);
@@ -863,7 +963,12 @@ function updateRaceUI() {
 
         const lapTimeDiv = document.createElement('div');
         lapTimeDiv.className = 'cell-laptime';
-        lapTimeDiv.textContent = formatTime(car.lastLapTime);
+        if (car.pitTimer > 0) {
+            lapTimeDiv.textContent = "IN PIT";
+            lapTimeDiv.style.color = "var(--f1-red)";
+        } else {
+            lapTimeDiv.textContent = formatTime(car.lastLapTime);
+        }
         div.appendChild(lapTimeDiv);
 
         const tireDiv = document.createElement('div');
