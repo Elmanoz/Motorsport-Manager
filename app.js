@@ -499,6 +499,9 @@ function startRace() {
     document.getElementById('race-d1-name').innerText = team.drivers[0];
     document.getElementById('race-d2-name').innerText = team.drivers[1];
 
+    const teamsByName = new Map();
+    GAME_DATA.teams.forEach(t => teamsByName.set(t.name, t));
+
     // Initialize race data
     gameState.raceData = {
         lap: 1,
@@ -525,7 +528,7 @@ function startRace() {
             if (isPlayer) {
                 carRating = (gameState.playerCar.engine + gameState.playerCar.chassis + gameState.playerCar.wings + gameState.playerCar.underfloor + gameState.playerCar.suspension) / 5;
             } else {
-                const t = GAME_DATA.teams.find(t => t.name === gridPos.team);
+                const t = teamsByName.get(gridPos.team);
                 carRating = (t.engine + t.chassis + t.wings + t.underfloor + t.suspension) / 5;
             }
 
