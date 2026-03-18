@@ -764,6 +764,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         calculateSatisfaction,
         GAME_DATA,
-        gameState
+        gameState,
+        endWeekend
     };
 }
