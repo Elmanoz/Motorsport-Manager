@@ -24,14 +24,14 @@ const { chromium } = require('playwright');
 
     console.log("Checking Upgrades Menu...");
     await page.click('#btn-goto-upgrades');
-    await page.waitForSelector('#upgrades-list div', { timeout: 2000 });
+    await page.waitForSelector('#upgrades-list .upgrade-category-panel', { timeout: 2000 });
     await page.click('#btn-back-dashboard');
 
     console.log("Starting Race Weekend...");
     await page.click('#btn-goto-weekend');
 
     console.log("In Practice Session...");
-    await page.waitForSelector('#btn-test-setup', { timeout: 2000 });
+    await page.waitForSelector('#btn-test-setup', { state: 'visible', timeout: 5000 });
     await page.click('#btn-test-setup'); // test setup
     await page.click('#btn-goto-qualifying');
 
@@ -50,7 +50,7 @@ const { chromium } = require('playwright');
     await page.click('#btn-speed-5x');
 
     console.log("Waiting for race to finish (this might take a few seconds)...");
-    await page.waitForSelector('#race-post-race', { state: 'visible', timeout: 30000 });
+    await page.waitForSelector('#race-post-race', { state: 'visible', timeout: 90000 });
 
     console.log("Race finished! Proceeding to next round...");
     await page.click('#btn-end-weekend');
