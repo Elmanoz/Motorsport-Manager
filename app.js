@@ -1,18 +1,18 @@
 // Core application file
 
 const GAME_DATA = {
-    teams:[
-        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers:["Max Verstappen", "Isack Hadjar"], engine: 95, chassis: 95, wings: 93, underfloor: 96, suspension: 94 },
-        { id: "mercedes", name: "Mercedes", color: "#27F4D2", budget: 140000000, drivers: ["George Russell", "Andrea Kimi Antonelli"], engine: 92, chassis: 90, wings: 90, underfloor: 88, suspension: 91 },
-        { id: "ferrari", name: "Ferrari", color: "#E80020", budget: 140000000, drivers: ["Charles Leclerc", "Lewis Hamilton"], engine: 94, chassis: 92, wings: 91, underfloor: 93, suspension: 90 },
-        { id: "mclaren", name: "McLaren", color: "#FF8000", budget: 135000000, drivers:["Lando Norris", "Oscar Piastri"], engine: 92, chassis: 94, wings: 95, underfloor: 94, suspension: 92 },
-        { id: "astonmartin", name: "Aston Martin", color: "#229971", budget: 130000000, drivers: ["Fernando Alonso", "Lance Stroll"], engine: 90, chassis: 85, wings: 86, underfloor: 84, suspension: 87 },
-        { id: "alpine", name: "Alpine", color: "#0093CC", budget: 120000000, drivers: ["Pierre Gasly", "Franco Colapinto"], engine: 85, chassis: 82, wings: 83, underfloor: 80, suspension: 81 },
-        { id: "williams", name: "Williams", color: "#005AFF", budget: 110000000, drivers:["Alexander Albon", "Carlos Sainz"], engine: 90, chassis: 80, wings: 81, underfloor: 78, suspension: 79 },
-        { id: "rb", name: "Visa Cash App RB", color: "#6692FF", budget: 110000000, drivers: ["Arvid Linblad", "Liam Lawson"], engine: 93, chassis: 81, wings: 80, underfloor: 82, suspension: 80 },
-        { id: "audi", name: "Audi", color: "#999999", budget: 115000000, drivers: ["Nico Hulkenberg", "Gabriel Bortoleto"], engine: 88, chassis: 75, wings: 76, underfloor: 74, suspension: 75 },
-        { id: "haas", name: "Haas", color: "#B6BABD", budget: 100000000, drivers:["Esteban Ocon", "Oliver Bearman"], engine: 92, chassis: 78, wings: 79, underfloor: 76, suspension: 77 },
-         { id: "cadillac", name: "Cadillac", color: "#000000", budget: 100000000, drivers: ["Valtteri Bottas", "Sergio Perez"], engine: 82, chassis: 70, wings: 65, underfloor: 70, suspension: 68 }
+    teams: [
+        { id: "mercedes", name: "Mercedes", color: "#27F4D2", budget: 140000000, drivers: ["George Russell","Andrea Kimi Antonelli"], carData: {"aerodynamics":{"frontWing":97,"rearWing":95,"underfloor":97},"engine":{"ice":94,"turbocharger":98,"ers":97},"chassis":{"monocoque":96,"cooling":96,"weightReduction":94},"suspension":{"frontSuspension":96,"rearSuspension":98,"brakes":96}} },
+        { id: "ferrari", name: "Ferrari", color: "#E80020", budget: 140000000, drivers: ["Charles Leclerc","Lewis Hamilton"], carData: {"aerodynamics":{"frontWing":95,"rearWing":96,"underfloor":94},"engine":{"ice":96,"turbocharger":96,"ers":94},"chassis":{"monocoque":96,"cooling":95,"weightReduction":95},"suspension":{"frontSuspension":92,"rearSuspension":96,"brakes":93}} },
+        { id: "mclaren", name: "McLaren", color: "#FF8000", budget: 135000000, drivers: ["Lando Norris","Oscar Piastri"], carData: {"aerodynamics":{"frontWing":93,"rearWing":92,"underfloor":92},"engine":{"ice":90,"turbocharger":94,"ers":93},"chassis":{"monocoque":93,"cooling":91,"weightReduction":91},"suspension":{"frontSuspension":94,"rearSuspension":92,"brakes":94}} },
+        { id: "redbull", name: "Red Bull Racing", color: "#3671C6", budget: 140000000, drivers: ["Max Verstappen","Isack Hadjar"], carData: {"aerodynamics":{"frontWing":88,"rearWing":88,"underfloor":90},"engine":{"ice":88,"turbocharger":88,"ers":91},"chassis":{"monocoque":89,"cooling":92,"weightReduction":90},"suspension":{"frontSuspension":90,"rearSuspension":92,"brakes":91}} },
+        { id: "haas", name: "Haas", color: "#B6BABD", budget: 100000000, drivers: ["Esteban Ocon","Oliver Bearman"], carData: {"aerodynamics":{"frontWing":85,"rearWing":87,"underfloor":88},"engine":{"ice":85,"turbocharger":85,"ers":89},"chassis":{"monocoque":88,"cooling":87,"weightReduction":88},"suspension":{"frontSuspension":86,"rearSuspension":87,"brakes":88}} },
+        { id: "rb", name: "Visa Cash App RB", color: "#6692FF", budget: 110000000, drivers: ["Arvid Linblad","Liam Lawson"], carData: {"aerodynamics":{"frontWing":83,"rearWing":83,"underfloor":84},"engine":{"ice":84,"turbocharger":84,"ers":87},"chassis":{"monocoque":86,"cooling":85,"weightReduction":85},"suspension":{"frontSuspension":83,"rearSuspension":86,"brakes":83}} },
+        { id: "alpine", name: "Alpine", color: "#0093CC", budget: 120000000, drivers: ["Pierre Gasly","Franco Colapinto"], carData: {"aerodynamics":{"frontWing":85,"rearWing":83,"underfloor":84},"engine":{"ice":84,"turbocharger":81,"ers":83},"chassis":{"monocoque":81,"cooling":85,"weightReduction":82},"suspension":{"frontSuspension":83,"rearSuspension":82,"brakes":81}} },
+        { id: "audi", name: "Audi", color: "#999999", budget: 115000000, drivers: ["Nico Hulkenberg","Gabriel Bortoleto"], carData: {"aerodynamics":{"frontWing":81,"rearWing":80,"underfloor":80},"engine":{"ice":82,"turbocharger":82,"ers":79},"chassis":{"monocoque":80,"cooling":83,"weightReduction":80},"suspension":{"frontSuspension":79,"rearSuspension":82,"brakes":80}} },
+        { id: "williams", name: "Williams", color: "#005AFF", budget: 110000000, drivers: ["Alexander Albon","Carlos Sainz"], carData: {"aerodynamics":{"frontWing":76,"rearWing":80,"underfloor":80},"engine":{"ice":77,"turbocharger":77,"ers":78},"chassis":{"monocoque":77,"cooling":78,"weightReduction":80},"suspension":{"frontSuspension":79,"rearSuspension":76,"brakes":78}} },
+        { id: "astonmartin", name: "Aston Martin", color: "#229971", budget: 130000000, drivers: ["Fernando Alonso","Lance Stroll"], carData: {"aerodynamics":{"frontWing":73,"rearWing":75,"underfloor":73},"engine":{"ice":73,"turbocharger":73,"ers":74},"chassis":{"monocoque":77,"cooling":75,"weightReduction":76},"suspension":{"frontSuspension":76,"rearSuspension":73,"brakes":77}} },
+        { id: "cadillac", name: "Cadillac", color: "#000000", budget: 100000000, drivers: ["Valtteri Bottas","Sergio Perez"], carData: {"aerodynamics":{"frontWing":72,"rearWing":71,"underfloor":73},"engine":{"ice":72,"turbocharger":74,"ers":74},"chassis":{"monocoque":71,"cooling":74,"weightReduction":71},"suspension":{"frontSuspension":72,"rearSuspension":71,"brakes":72}} },
     ],
     drivers: {
         "Max Verstappen": { skill: 98, consistency: 97, pace: 99, defense: 95 },
@@ -71,7 +71,12 @@ let gameState = {
     budget: 0,
     currentRoundIndex: 0,
     championship: { drivers: {}, constructors: {} },
-    playerCar: { engine: 0, chassis: 0, wings: 0, underfloor: 0, suspension: 0 },
+    playerCar: {
+        aerodynamics: { frontWing: 0, rearWing: 0, underfloor: 0 },
+        engine: { ice: 0, turbocharger: 0, ers: 0 },
+        chassis: { monocoque: 0, cooling: 0, weightReduction: 0 },
+        suspension: { frontSuspension: 0, rearSuspension: 0, brakes: 0 }
+    },
     practiceData: {
         driver1: { ideal: [50, 50, 50], current:[50, 50, 50], satisfaction: 0 },
         driver2: { ideal:[50, 50, 50], current: [50, 50, 50], satisfaction: 0 },
@@ -84,6 +89,24 @@ let gameState = {
 let raceLoopInterval = null;
 let raceSpeed = 8000;
 let isRacePaused = false;
+
+
+function getCategoryAverage(categoryData) {
+    if (!categoryData) return 0;
+    const values = Object.values(categoryData);
+    if (values.length === 0) return 0;
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    return sum / values.length;
+}
+
+function calculateCarRating(carData) {
+    if (!carData) return 0;
+    const aero = getCategoryAverage(carData.aerodynamics);
+    const engine = getCategoryAverage(carData.engine);
+    const chassis = getCategoryAverage(carData.chassis);
+    const susp = getCategoryAverage(carData.suspension);
+    return (aero + engine + chassis + susp) / 4;
+}
 
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -112,6 +135,7 @@ function saveGame() {
 function isValidGameState(state) {
     if (!state || typeof state !== 'object') return false;
     if (!('teamId' in state) || !('budget' in state) || !('currentRoundIndex' in state)) return false;
+    if (!state.playerCar || typeof state.playerCar.aerodynamics !== 'object') return false;
     return true;
 }
 
@@ -329,13 +353,7 @@ function selectTeam(team) {
     gameState.teamId = team.id;
     gameState.budget = team.budget;
     gameState.currentRoundIndex = 0;
-    gameState.playerCar = {
-        engine: team.engine,
-        chassis: team.chassis,
-        wings: team.wings,
-        underfloor: team.underfloor,
-        suspension: team.suspension
-    };
+    gameState.playerCar = JSON.parse(JSON.stringify(team.carData));
 
     GAME_DATA.drivers.forEach ? null : Object.keys(GAME_DATA.drivers).forEach(d => gameState.championship.drivers[d] = 0);
     GAME_DATA.teams.forEach(t => gameState.championship.constructors[t.id] = 0);
@@ -373,11 +391,10 @@ function updateDashboard() {
         driversList.appendChild(li);
     });
 
-    document.getElementById('dash-car-engine').innerText = gameState.playerCar.engine;
-    document.getElementById('dash-car-chassis').innerText = gameState.playerCar.chassis;
-    document.getElementById('dash-car-wings').innerText = gameState.playerCar.wings;
-    document.getElementById('dash-car-underfloor').innerText = gameState.playerCar.underfloor;
-    document.getElementById('dash-car-suspension').innerText = gameState.playerCar.suspension;
+    document.getElementById('dash-car-aero').innerText = Math.round(getCategoryAverage(gameState.playerCar.aerodynamics));
+    document.getElementById('dash-car-engine').innerText = Math.round(getCategoryAverage(gameState.playerCar.engine));
+    document.getElementById('dash-car-chassis').innerText = Math.round(getCategoryAverage(gameState.playerCar.chassis));
+    document.getElementById('dash-car-suspension').innerText = Math.round(getCategoryAverage(gameState.playerCar.suspension));
 }
 
 function updateUpgradesMenu() {
@@ -385,56 +402,111 @@ function updateUpgradesMenu() {
     const list = document.getElementById('upgrades-list');
     list.innerHTML = '';
 
-    const parts =[
-        { key: 'engine', name: 'Engine' },
-        { key: 'chassis', name: 'Chassis' },
-        { key: 'wings', name: 'Wings' },
-        { key: 'underfloor', name: 'Underfloor' },
-        { key: 'suspension', name: 'Suspension' }
+    const categories = [
+        {
+            id: 'aerodynamics',
+            name: 'Aerodynamics',
+            parts: [
+                { key: 'frontWing', name: 'Front Wing' },
+                { key: 'rearWing', name: 'Rear Wing' },
+                { key: 'underfloor', name: 'Underfloor' }
+            ]
+        },
+        {
+            id: 'engine',
+            name: 'Engine',
+            parts: [
+                { key: 'ice', name: 'Internal Combustion' },
+                { key: 'turbocharger', name: 'Turbocharger' },
+                { key: 'ers', name: 'Energy Recovery' }
+            ]
+        },
+        {
+            id: 'chassis',
+            name: 'Chassis',
+            parts: [
+                { key: 'monocoque', name: 'Monocoque' },
+                { key: 'cooling', name: 'Cooling System' },
+                { key: 'weightReduction', name: 'Weight Reduction' }
+            ]
+        },
+        {
+            id: 'suspension',
+            name: 'Suspension',
+            parts: [
+                { key: 'frontSuspension', name: 'Front Suspension' },
+                { key: 'rearSuspension', name: 'Rear Suspension' },
+                { key: 'brakes', name: 'Brakes' }
+            ]
+        }
     ];
 
-    parts.forEach(part => {
-        const currentLevel = gameState.playerCar[part.key];
-        const cost = Math.floor(5000000 * Math.pow(1.1, currentLevel - 70));
+    categories.forEach(category => {
+        const catPanel = document.createElement('div');
+        catPanel.className = 'upgrade-category-panel panel';
+        catPanel.style.marginBottom = '20px';
 
-        const div = document.createElement('div');
-        div.className = 'upgrade-item panel';
+        const catTitle = document.createElement('h3');
+        catTitle.textContent = category.name;
+        catPanel.appendChild(catTitle);
 
-        const canAfford = gameState.budget >= cost;
-        const isMaxed = currentLevel >= 100;
+        category.parts.forEach(part => {
+            const currentLevel = gameState.playerCar[category.id][part.key];
+            const cost = Math.floor(2000000 * Math.pow(1.1, currentLevel - 70));
 
-        const infoDiv = document.createElement('div');
-        const h4 = document.createElement('h4');
-        h4.style.margin = "0";
-        h4.textContent = part.name;
-        
-        const lvlSpan = document.createElement('span');
-        lvlSpan.className = 'upgrade-level';
-        lvlSpan.textContent = ` Lvl ${currentLevel}`;
-        h4.appendChild(lvlSpan);
-        infoDiv.appendChild(h4);
+            const div = document.createElement('div');
+            div.className = 'upgrade-item';
+            div.style.display = 'flex';
+            div.style.justifyContent = 'space-between';
+            div.style.alignItems = 'center';
+            div.style.padding = '10px 0';
+            div.style.borderBottom = '1px solid #333';
 
-        const pCost = document.createElement('p');
-        pCost.className = 'upgrade-cost';
-        pCost.textContent = `Cost to Upgrade: $${cost.toLocaleString()}`;
-        infoDiv.appendChild(pCost);
-        div.appendChild(infoDiv);
+            const canAfford = gameState.budget >= cost;
+            const isMaxed = currentLevel >= 100;
 
-        const upgradeBtn = document.createElement('button');
-        upgradeBtn.className = 'btn btn-sm';
-        upgradeBtn.disabled = !canAfford || isMaxed;
-        upgradeBtn.textContent = isMaxed ? 'Max Level' : 'Upgrade';
-        div.appendChild(upgradeBtn);
+            const infoDiv = document.createElement('div');
+            const h4 = document.createElement('h4');
+            h4.style.margin = "0";
+            h4.textContent = part.name;
 
-        if (canAfford && !isMaxed) {
-            upgradeBtn.addEventListener('click', () => {
-                gameState.budget -= cost;
-                gameState.playerCar[part.key] += 1;
-                updateUpgradesMenu();
-            });
-        }
+            const lvlSpan = document.createElement('span');
+            lvlSpan.className = 'upgrade-level';
+            lvlSpan.textContent = ` Lvl ${currentLevel}`;
+            lvlSpan.style.color = 'var(--text-muted)';
+            lvlSpan.style.marginLeft = '10px';
+            h4.appendChild(lvlSpan);
+            infoDiv.appendChild(h4);
 
-        list.appendChild(div);
+            const pCost = document.createElement('p');
+            pCost.className = 'upgrade-cost';
+            pCost.textContent = `Cost to Upgrade: $${cost.toLocaleString()}`;
+            pCost.style.margin = "5px 0 0 0";
+            pCost.style.color = canAfford ? 'var(--text-green)' : 'var(--f1-red)';
+            infoDiv.appendChild(pCost);
+            div.appendChild(infoDiv);
+
+            const upgradeBtn = document.createElement('button');
+            upgradeBtn.className = 'btn btn-sm';
+            upgradeBtn.disabled = !canAfford || isMaxed;
+            upgradeBtn.textContent = isMaxed ? 'Max Level' : 'Upgrade';
+            div.appendChild(upgradeBtn);
+
+            if (canAfford && !isMaxed) {
+                upgradeBtn.addEventListener('click', () => {
+                    gameState.budget -= cost;
+                    gameState.playerCar[category.id][part.key] += 1;
+                    updateUpgradesMenu();
+                });
+            }
+
+            catPanel.appendChild(div);
+        });
+
+        // Remove border from last item
+        catPanel.lastChild.style.borderBottom = 'none';
+
+        list.appendChild(catPanel);
     });
 }
 
@@ -566,10 +638,10 @@ async function simulateQualifying() {
             let satisfaction = 80; 
 
             if (isPlayer) {
-                carRating = (gameState.playerCar.engine + gameState.playerCar.chassis + gameState.playerCar.wings + gameState.playerCar.underfloor + gameState.playerCar.suspension) / 5;
+                carRating = calculateCarRating(gameState.playerCar);
                 satisfaction = index === 0 ? gameState.practiceData.driver1.satisfaction : gameState.practiceData.driver2.satisfaction;
             } else {
-                carRating = (team.engine + team.chassis + team.wings + team.underfloor + team.suspension) / 5;
+                carRating = calculateCarRating(team.carData);
             }
 
             const driverRating = (driverStats.skill + driverStats.pace) / 2;
@@ -682,10 +754,11 @@ async function startRace() {
             const driverStats = GAME_DATA.drivers[gridPos.driver];
             let carRating = 0;
             if (isPlayer) {
-                carRating = (gameState.playerCar.engine + gameState.playerCar.chassis + gameState.playerCar.wings + gameState.playerCar.underfloor + gameState.playerCar.suspension) / 5;
+                carRating = calculateCarRating(gameState.playerCar);
             } else {
                 const t = GAME_DATA.teams.find(t => t.name === gridPos.team);
-                carRating = (t.engine + t.chassis + t.wings + t.underfloor + t.suspension) / 5;
+                carRating = calculateCarRating(t.carData);
+
             }
 
             return {

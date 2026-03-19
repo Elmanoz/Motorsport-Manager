@@ -163,7 +163,13 @@ describe('loadGame', () => {
         const validData = {
             teamId: 'redbull',
             budget: 1000,
-            currentRoundIndex: 1
+            currentRoundIndex: 1,
+            playerCar: {
+                aerodynamics: { frontWing: 80 },
+                engine: { ice: 80 },
+                chassis: { monocoque: 80 },
+                suspension: { brakes: 80 }
+            }
         };
         global.localStorage.setItem('f1manager2026_save', JSON.stringify(validData));
         loadGame();
