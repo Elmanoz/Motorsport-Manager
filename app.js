@@ -452,7 +452,7 @@ function updateUpgradesMenu() {
 
         category.parts.forEach(part => {
             const currentLevel = gameState.playerCar[category.id][part.key];
-            const cost = Math.floor(2000000 * Math.pow(1.1, currentLevel - 70));
+            const cost = Math.floor(2000000 * Math.pow(1.2, currentLevel - 70));
 
             const div = document.createElement('div');
             div.className = 'upgrade-item';
