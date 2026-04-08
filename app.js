@@ -732,6 +732,10 @@ async function startRace() {
     document.getElementById('race-d1-name').innerText = team.drivers[0];
     document.getElementById('race-d2-name').innerText = team.drivers[1];
 
+    // Performance Optimization: Pre-calculate team dictionary for O(1) lookup
+    const teamsByName = new Map();
+    GAME_DATA.teams.forEach(t => teamsByName.set(t.name, t));
+
     gameState.raceData = {
         lap: 1,
         totalLaps: currentRace.laps,
@@ -756,7 +760,7 @@ async function startRace() {
             if (isPlayer) {
                 carRating = calculateCarRating(gameState.playerCar);
             } else {
-                const t = GAME_DATA.teams.find(t => t.name === gridPos.team);
+                const t = teamsByName.get(gridPos.team);
                 carRating = calculateCarRating(t.carData);
 
             }
@@ -1066,12 +1070,16 @@ function updateRaceUI() {
 function awardPoints() {
     const pointsSys =[25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
+    // Performance Optimization: Pre-calculate team dictionary for O(1) lookup
+    const teamsByName = new Map();
+    GAME_DATA.teams.forEach(t => teamsByName.set(t.name, t));
+
     gameState.raceData.cars.forEach(car => {
         if (car.pos <= 10) {
             const pts = pointsSys[car.pos - 1];
             gameState.championship.drivers[car.driver] += pts;
 
-            const team = GAME_DATA.teams.find(t => t.name === car.team);
+            const team = teamsByName.get(car.team);
             if(team) {
                 gameState.championship.constructors[team.id] += pts;
             }
